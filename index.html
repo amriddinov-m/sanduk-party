@@ -1,0 +1,1294 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Girls Party — приглашение: дата, программа мероприятия и дресс-код.">
+<meta name="theme-color" content="#4a2029">
+
+<!-- Ссылка-превью для WhatsApp / Telegram / соцсетей.
+     Замените https://example.com на адрес вашего сайта. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Girls Party">
+<meta property="og:description" content="Вечер только для своих. Будем рады видеть вас.">
+<meta property="og:image" content="https://example.com/assets/logo-512.png">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Girls Party">
+<meta name="twitter:description" content="Вечер только для своих. Будем рады видеть вас.">
+<meta name="twitter:image" content="https://example.com/assets/logo-512.png">
+
+<link rel="icon" href="assets/logo-256.png">
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Girls Party</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Jost:wght@300;400;500&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+  :root{
+    --ivory:#fffaf6;        /* основной фон — тёплый айвори */
+    --cream:#fbf0e7;        /* чередующаяся полоса */
+    --beige:#ecd9c3;
+    --paper:#fdf4ec;
+    --rose-deep:#5f2b33;    /* глубокий винно-розовый: заголовки, тёмные блоки */
+    --rose-mid:#8a4450;
+    --rose:#c07f84;
+    --rose-soft:#e8bdb9;
+    --blush:#f6dcd8;
+    --charcoal:#4a3733;
+    --ink-soft:#8a6f68;
+    --gold:#b4834f;         /* розовое золото — в тон логотипу */
+    --gold-soft:#e4c39c;
+    --hairline:rgba(150,105,95,0.26);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--charcoal);
+    font-family:'Jost',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0; text-wrap:balance; font-weight:400;}
+  p{margin:0;}
+  a{color:inherit;}
+  button{font-family:inherit; border:none; background:none; color:inherit; cursor:pointer;}
+  ::selection{background:var(--gold-soft); color:var(--rose-deep);}
+
+  .serif{font-family:'Bodoni Moda', Georgia, 'Times New Roman', serif;}
+  .script{font-family:'Mrs Saint Delafield', cursive; font-weight:400;}
+  .eyebrow{
+    font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+    color:var(--gold); font-weight:500;
+  }
+  .on-dark .eyebrow{color:var(--gold-soft);}
+
+  /* ---------- reveal utility ---------- */
+  .reveal{opacity:0; transform:translateY(26px); filter:blur(4px);
+    transition:opacity 1s cubic-bezier(.3,.1,.2,1), transform 1s cubic-bezier(.3,.1,.2,1), filter 1s ease;}
+  .reveal.in{opacity:1; transform:translateY(0); filter:blur(0);}
+  .stagger > *{transition-delay:calc(var(--i,0) * 90ms);}
+  @media (prefers-reduced-motion:reduce){
+    .reveal, .stagger > *{opacity:1!important; transform:none!important; filter:none!important; transition:none!important;}
+  }
+
+  .section{padding:120px 24px; display:flex; flex-direction:column; align-items:center; position:relative;}
+  .section-inner{max-width:620px; width:100%; display:flex; flex-direction:column; align-items:center; text-align:center; gap:26px;}
+  .tint-a{background:var(--ivory);}
+  .tint-b{background:var(--cream);}
+  .hairline-y{width:1px; height:56px; background:var(--hairline);}
+
+  /* ================= OPENING (wax-sealed envelope) ================= */
+  #opening{
+    --e1:#833f4b;   /* top flap outer face — catches the light */
+    --e2:#6c3140;
+    --e3:#5c2935;   /* side flaps */
+    --e4:#48202a;   /* bottom flap */
+    --e5:#2c1119;   /* envelope interior */
+    position:fixed; inset:0; z-index:60; overflow:hidden;
+    background:var(--e5);
+    perspective:1500px; perspective-origin:50% 44%;
+    -webkit-tap-highlight-color:transparent;
+    transition:opacity 1.05s ease, background-color 1.2s ease;
+  }
+  /* by the time the layer dissolves the card already fills the frame, so the
+     ground behind it has to be paper, not envelope */
+  #opening.stage-push{background:#fdf2ec;}
+  #opening.stage-fade{opacity:0;}
+  #opening.stage-open{pointer-events:none;}
+
+  /* three depth layers: envelope interior, the card, the folded front + light */
+  .env-back{position:absolute; inset:0; transition:opacity .9s ease;}
+  .env-front{
+    position:absolute; inset:0;
+    perspective:1500px; perspective-origin:50% 44%;
+    transition:opacity 1s cubic-bezier(.4,0,.5,1);
+  }
+  .env-light{position:absolute; inset:0; pointer-events:none; transition:opacity 1s ease;}
+  #opening.stage-push .env-back,
+  #opening.stage-push .env-front,
+  #opening.stage-push .env-light{opacity:0;}
+
+  /* --- interior of the envelope + the light that pours out of it --- */
+  .env-interior{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 62% 40% at 50% 47%, #542430 0%, rgba(44,17,25,0) 78%),
+      linear-gradient(180deg,#341520,#210c13);
+  }
+  .beam{position:absolute; left:50%; opacity:0; pointer-events:none; filter:blur(9px);}
+  .beam-up{
+    bottom:53%; width:160vw; height:58vh; transform:translateX(-50%) scaleY(.12);
+    transform-origin:50% 100%; clip-path:polygon(50% 100%, 0% 0%, 100% 0%);
+    background:linear-gradient(to top, rgba(255,250,236,.95), rgba(255,242,212,.34) 46%, rgba(255,236,192,0) 90%);
+  }
+  .beam-down{
+    top:53%; width:160vw; height:58vh; transform:translateX(-50%) scaleY(.12);
+    transform-origin:50% 0%; clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+    background:linear-gradient(to bottom, rgba(255,250,236,.9), rgba(255,242,212,.3) 46%, rgba(255,236,192,0) 90%);
+  }
+  .core{
+    position:absolute; left:50%; top:50%; width:min(58vw,330px); height:min(58vw,330px);
+    transform:translate(-50%,-50%) scale(.1); opacity:0; border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle,#fffdf7 0%, rgba(255,251,238,.92) 20%, rgba(255,240,202,.5) 44%, rgba(255,233,182,0) 72%);
+    filter:blur(6px);
+  }
+  #opening.stage-open .beam{animation:beamGrow 2.7s cubic-bezier(.22,.62,.3,1) forwards; will-change:transform,opacity;}
+  #opening.stage-open .core{animation:coreGrow 2.8s cubic-bezier(.25,.5,.3,1) forwards; will-change:transform,opacity;}
+  @keyframes beamGrow{
+    0%{transform:translateX(-50%) scaleY(.12); opacity:0;}
+    26%{opacity:.42;}
+    100%{transform:translateX(-50%) scaleY(1.05); opacity:.62;}
+  }
+  @keyframes coreGrow{
+    0%{transform:translate(-50%,-50%) scale(.1); opacity:0;}
+    20%{opacity:.55;}
+    100%{transform:translate(-50%,-50%) scale(2); opacity:.75;}
+  }
+
+  /* --- flaps --- */
+  .flap{position:absolute; inset:0; backface-visibility:hidden; will-change:transform;}
+  .flap-engraving{position:absolute; inset:0; width:100%; height:100%; opacity:.2;
+    transition:opacity 1.2s ease;}
+  #opening.stage-glow .flap-engraving{opacity:.34;}
+  .flap-right{clip-path:polygon(100% 0,100% 100%,50% 50%); background:linear-gradient(215deg,var(--e3),var(--e4) 82%);}
+  .flap-left{clip-path:polygon(0 100%,0 0,50% 50%); background:linear-gradient(145deg,var(--e3),var(--e4) 82%);}
+  .flap-bottom{clip-path:polygon(100% 100%,0 100%,50% 50%); background:linear-gradient(18deg,var(--e4),#2b1019 88%);}
+  .flap-shade{
+    position:absolute; inset:0; clip-path:polygon(0 0,100% 0,50% 50%); pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,0) 82%);
+    opacity:.9; transition:opacity 1.3s ease .15s;
+  }
+  #opening.stage-open .flap-shade{opacity:0;}
+  .flap-top{
+    clip-path:polygon(0 0,100% 0,50% 50%);
+    background:linear-gradient(168deg, var(--e1), var(--e2) 78%);
+    transform-origin:50% 0%; transform:rotateX(0deg);
+    transition:transform 1.6s cubic-bezier(.36,.02,.2,1), opacity .55s ease 1.25s;
+  }
+  #opening.stage-open .flap-top{transform:rotateX(-104deg); opacity:0;}
+
+  /* metallic sheen + gilded botanical ornaments */
+  .sheen{
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(118deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,0) 20%,
+        rgba(255,255,255,0) 52%, rgba(255,255,255,.07) 66%, rgba(255,255,255,0) 82%),
+      linear-gradient(292deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 34%);
+  }
+  .env-grain{
+    position:absolute; inset:0; pointer-events:none; opacity:.2;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+  }
+  .env-crease{
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 52% 26% at 50% 50%, rgba(0,0,0,.42), rgba(0,0,0,0) 72%);
+    opacity:.85; transition:opacity 1.4s ease;
+  }
+  #opening.stage-open .env-crease{opacity:0;}
+  .env-orn{position:absolute; inset:0; width:100%; height:100%; pointer-events:none;}
+  .env-orn.relief{
+    --p0:#96505c; --p1:#87454f; --p2:#763a45; --core:#67313c;
+    --l0:#8e4e58; --l1:#7e434e; --l2:#6d3944;
+    opacity:.42; filter:drop-shadow(0 1px 0 rgba(255,255,255,.07));
+  }
+  .env-orn.gilt{
+    --p0:#f4dcc4; --p1:#e0b48f; --p2:#c08a65; --core:#96623f;
+    --l0:#e8c8a4; --l1:#cfa276; --l2:#a87c53;
+    opacity:0; transition:opacity 1.7s ease;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.45));
+  }
+  #opening.stage-glow .env-orn.gilt.ring1{opacity:1; transition-delay:.05s;}
+  #opening.stage-glow .env-orn.gilt.ring2{opacity:1; transition-delay:.55s;}
+  #opening.stage-glow .env-orn.gilt.ring3{opacity:1; transition-delay:1.1s;}
+  .flap-top .env-orn{z-index:1;}
+
+  /* seams + vignette */
+  .seam-svg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; transition:opacity 1.2s ease .4s;}
+  .seam-base{stroke:#eec7b4; stroke-width:.26; opacity:.45;}
+  .seam-hot{stroke:#fce0d4; stroke-width:.4; opacity:0; transition:opacity 1.4s ease;
+    filter:drop-shadow(0 0 3px rgba(255,226,214,.6));}
+  #opening.stage-glow .seam-hot{opacity:.62;}
+  #opening.stage-open .seam-svg{opacity:0;}
+  .env-vignette{position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse 82% 66% at 50% 47%, transparent 44%, rgba(0,0,0,.48) 100%);}
+
+  /* light that spills out over the still-folded flaps, then floods the screen */
+  .spill{position:absolute; left:50%; opacity:0; pointer-events:none;
+    mix-blend-mode:screen; filter:blur(7px);}
+  .spill-up{
+    bottom:50%; width:170vw; height:56vh; transform:translateX(-50%) scaleY(.1); transform-origin:50% 100%;
+    clip-path:polygon(50% 100%, 0% 0%, 100% 0%);
+    background:linear-gradient(to top, rgba(255,240,232,.95), rgba(253,220,205,.34) 50%, rgba(250,208,190,0) 92%);
+  }
+  .spill-down{
+    top:50%; width:170vw; height:54vh; transform:translateX(-50%) scaleY(.1); transform-origin:50% 0%;
+    clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+    background:linear-gradient(to bottom, rgba(255,238,228,.78), rgba(253,217,200,.24) 52%, rgba(250,208,190,0) 92%);
+  }
+  #opening.stage-open .spill{animation:spillGrow 2.6s cubic-bezier(.2,.55,.3,1) forwards; will-change:transform,opacity;}
+  @keyframes spillGrow{
+    0%{transform:translateX(-50%) scaleY(.1); opacity:0;}
+    30%{opacity:.4;}
+    100%{transform:translateX(-50%) scaleY(.92); opacity:.58;}
+  }
+  .bloom{
+    position:absolute; left:50%; top:50%; width:150vmax; height:150vmax; border-radius:50%;
+    transform:translate(-50%,-50%) scale(.07); opacity:0; pointer-events:none; mix-blend-mode:screen;
+    background:radial-gradient(circle, rgba(255,249,244,.97) 0%, rgba(255,235,225,.66) 16%, rgba(253,215,200,.28) 32%, rgba(250,205,188,0) 54%);
+  }
+  #opening.stage-open .bloom{animation:bloomGrow 2.7s cubic-bezier(.32,.3,.25,1) forwards; will-change:transform,opacity;}
+  @keyframes bloomGrow{
+    0%{transform:translate(-50%,-50%) scale(.07); opacity:0;}
+    35%{opacity:.24;}
+    100%{transform:translate(-50%,-50%) scale(.86); opacity:.5;}
+  }
+
+  /* light wave that sweeps outward and lights up the engraving */
+  .light-wave{
+    position:absolute; left:50%; top:50%; width:120vmax; height:120vmax; border-radius:50%;
+    transform:translate(-50%,-50%) scale(.03); opacity:0; pointer-events:none; mix-blend-mode:screen;
+    background:radial-gradient(circle, rgba(255,245,240,0) 0%, rgba(255,238,230,.38) 32%, rgba(253,222,210,.16) 52%, rgba(250,210,196,0) 68%);
+  }
+  #opening.stage-glow .light-wave{animation:waveOut 2.2s cubic-bezier(.16,.7,.28,1) forwards; will-change:transform,opacity;}
+  @keyframes waveOut{
+    0%{transform:translate(-50%,-50%) scale(.03); opacity:0;}
+    12%{opacity:1;}
+    100%{transform:translate(-50%,-50%) scale(1); opacity:0;}
+  }
+
+  /* wax seal */
+  .seal{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(1);
+    width:132px; height:132px; padding:0; background:none; border:none;
+    display:flex; align-items:center; justify-content:center;
+    filter:drop-shadow(0 10px 22px rgba(0,0,0,.55));
+    transition:transform 2.2s cubic-bezier(.3,.1,.25,1), filter .6s ease;
+  }
+  .seal-svg{position:absolute; inset:0; width:100%; height:100%;}
+  /* the monogram stamped into the wax */
+  .seal-logo{
+    position:relative; z-index:2; width:60%; display:block; color:#6e3039;
+    filter:drop-shadow(0 1px 0 rgba(255,255,255,.5));
+  }
+  .seal-ring{
+    position:absolute; inset:-10px; border-radius:50%; pointer-events:none;
+    animation:pulse 3.2s ease-in-out infinite; transition:opacity .5s ease;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 18px 2px rgba(255,236,228,.16);}
+    50%{box-shadow:0 0 34px 8px rgba(255,236,228,.34);}
+  }
+  .seal-glow{
+    position:absolute; top:50%; left:50%; width:150px; height:150px; border-radius:50%;
+    transform:translate(-50%,-50%) scale(.85); opacity:0; pointer-events:none; filter:blur(3px);
+    background:radial-gradient(circle, rgba(255,250,246,.95), rgba(244,208,192,.45) 44%, transparent 72%);
+  }
+  #opening.stage-glow .seal-glow{animation:sealBurst 1.3s ease-out forwards;}
+  @keyframes sealBurst{
+    0%{transform:translate(-50%,-50%) scale(.8); opacity:.7;}
+    55%{transform:translate(-50%,-50%) scale(2.2); opacity:.32;}
+    100%{transform:translate(-50%,-50%) scale(3.4); opacity:0;}
+  }
+  #opening.stage-glow .seal{filter:drop-shadow(0 10px 22px rgba(0,0,0,.5)) drop-shadow(0 0 16px rgba(255,232,222,.5));}
+  #opening.stage-open .seal{transform:translate(-50%,-50%) scale(1.05);
+    filter:drop-shadow(0 6px 16px rgba(35,25,6,.55)) drop-shadow(0 0 18px rgba(255,228,216,.55));}
+  #opening.stage-glow .seal-ring, #opening.stage-glow .seal-hint{opacity:0;}
+  .seal-hint{
+    position:absolute; top:50%; left:50%; transform:translate(-50%, 104px);
+    font-size:10.5px; letter-spacing:.26em; text-transform:uppercase; color:var(--gold-soft);
+    white-space:nowrap; transition:opacity .5s ease;
+  }
+  @media (max-width:380px){
+    .seal{width:112px; height:112px;}
+  }
+  /* --- the seal has done its work: it dissolves as the card comes up --- */
+  #opening.stage-lift .seal{
+    opacity:0; transform:translate(-50%,-50%) scale(1.3);
+    transition:opacity .9s ease, transform 1.5s cubic-bezier(.3,.1,.25,1), filter .6s ease;
+  }
+
+  /* ================= the card drawn out of the envelope =================
+     it sits between .env-back and .env-front, so while it rises the folded
+     flaps cut across it exactly as paper leaving a real envelope would */
+  .env-card{
+    position:absolute; left:50%; top:50%; overflow:hidden;
+    width:min(72vw,340px); aspect-ratio:.705;
+    background:linear-gradient(178deg,#fffdfa 0%,#fdf4ee 46%,#f8e8dd 100%);
+    border:1px solid rgba(180,131,79,.34);
+    box-shadow:0 24px 42px -22px rgba(0,0,0,.85), 0 2px 10px rgba(0,0,0,.4);
+    transform:translate(-50%,-50%) translateY(58%) scale(.94) rotate(-1.6deg);
+    transform-origin:50% 50%;
+    pointer-events:none; will-change:transform;
+  }
+  #opening.stage-lift .env-card{
+    transform:translate(-50%,-50%) translateY(-37%) scale(1.02) rotate(0deg);
+    box-shadow:0 52px 66px -30px rgba(0,0,0,.7), 0 4px 18px rgba(0,0,0,.26);
+    transition:transform 1.55s cubic-bezier(.19,.72,.26,1), box-shadow 1.55s ease;
+  }
+  /* then the frame moves into the paper until nothing else is left on screen */
+  #opening.stage-push .env-card{
+    transform:translate(-50%,-50%) translateY(-8%) scale(var(--fill,8)) rotate(0deg);
+    transition:transform 1.7s cubic-bezier(.52,.02,.6,1);
+  }
+
+  .env-card-frame{position:absolute; inset:9px; border:1px solid rgba(180,131,79,.24);}
+  .env-card-logo{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:52%; display:block;
+  }
+  .env-card-grain{
+    position:absolute; inset:0; opacity:.1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    background-size:150px 150px;
+  }
+  /* the paper is still in shadow while it is inside the envelope */
+  .env-card-shade{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(22,8,12,0) 26%, rgba(22,8,12,.5) 72%, rgba(18,6,10,.82) 100%);
+    transition:opacity 1.6s ease;
+  }
+  #opening.stage-lift .env-card-shade{opacity:0;}
+  .env-card-sheen{
+    position:absolute; inset:-10%; opacity:0;
+    background:linear-gradient(102deg, rgba(255,255,255,0) 32%, rgba(255,246,240,.8) 50%, rgba(255,255,255,0) 68%);
+  }
+  #opening.stage-lift .env-card-sheen{animation:cardSheen 1.7s cubic-bezier(.3,.2,.3,1) forwards;}
+  @keyframes cardSheen{
+    0%{transform:translateX(-115%); opacity:0;}
+    28%{opacity:.85;}
+    100%{transform:translateX(115%); opacity:0;}
+  }
+  /* the light the invitation is lit with at the end matches the hero header */
+  .env-card-flare{
+    position:absolute; inset:0; opacity:0;
+    background:radial-gradient(ellipse 120% 54% at 50% 6%, rgba(255,251,247,.96) 0%, rgba(255,251,247,0) 64%);
+    transition:opacity 1.3s ease;
+  }
+  #opening.stage-push .env-card-flare{opacity:1;}
+  #opening.stage-dim .env-card-frame,
+  #opening.stage-dim .env-card-logo,
+  #opening.stage-dim .env-card-grain{opacity:0; transition:opacity .55s ease;}
+  /* by the time the frame moves, the card is a plain sheet of paper */
+  #opening.stage-push .env-card-frame,
+  #opening.stage-push .env-card-logo,
+  #opening.stage-push .env-card-grain{visibility:hidden;}
+
+  @media (prefers-reduced-motion:reduce){
+    .seal-ring{animation:none;}
+    .env-card{display:none;}
+    #opening.stage-glow .light-wave, #opening.stage-glow .seal-glow,
+    #opening.stage-open .beam, #opening.stage-open .core,
+    #opening.stage-open .spill, #opening.stage-open .bloom{animation:none; opacity:.9;}
+    .flap-top{transition:opacity .5s ease;}
+    #opening.stage-open .flap-top{transform:none; opacity:0;}
+  }
+
+  body.lite #opening{transition-duration:.7s;}
+  body.lite .flap-top{transition-duration:1.05s;}
+  body.lite #opening.stage-lift .env-card{transition-duration:1s;}
+  body.lite #opening.stage-push .env-card{transition-duration:1.1s;}
+
+  /* ---------- lite tier: modest phones get the same beats, far less paint ----------
+     the flap still folds, the card still lifts and fills the frame; what goes
+     is the stack of full-screen blurred light layers on top of it */
+  body.lite .beam, body.lite .core, body.lite .spill, body.lite .light-wave,
+  body.lite .env-grain, body.lite .env-card-grain, body.lite .env-card-sheen{display:none;}
+  body.lite .bloom{mix-blend-mode:screen;}
+  body.lite .env-orn.gilt{filter:none;}
+  body.lite .seal-glow{filter:none;}
+  body.lite .env-card{box-shadow:0 30px 44px -26px rgba(0,0,0,.7);}
+  body.lite .reveal{filter:none;}
+  body.lite .hero-flora{filter:none;}
+
+  /* ================= HERO — the card inside the envelope ================= */
+  .hero{
+    position:relative; isolation:isolate; overflow:hidden;
+    transition:transform 2.2s cubic-bezier(.18,.72,.24,1);
+    padding:clamp(54px,9vh,104px) 20px clamp(34px,5vh,58px);
+    display:flex; flex-direction:column; align-items:center;
+    background:
+      radial-gradient(ellipse 120% 52% at 50% -4%, rgba(255,251,247,.92) 0%, rgba(255,251,247,0) 62%),
+      linear-gradient(180deg, #f2ded9 0%, #f8e6de 34%, #fdf1e9 62%, var(--ivory) 100%);
+  }
+  .hero::after{
+    content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(ellipse 76% 60% at 50% 46%, transparent 54%, rgba(140,80,86,.11) 100%);
+  }
+  .hero-watermark{
+    position:absolute; inset:0; width:100%; height:100%; z-index:0;
+    opacity:.09; mix-blend-mode:multiply; pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:1; width:100%; display:flex; flex-direction:column; align-items:center;}
+  /* the header is held slightly forward while the envelope is closed, then
+     settles back as the opening layer clears — the camera coming to rest */
+  body.is-sealed .hero{transform:scale(1.07); will-change:transform;}
+
+  /* painted flowers framing the invitation */
+  .hero-flora{
+    position:absolute; pointer-events:none; z-index:0;
+    --p0:#f8dfd9; --p1:#e8b2b1; --p2:#cd8990; --core:#9b5c66;
+    --l0:#ddc5a4; --l1:#c3a781; --l2:#a2865f;
+    width:clamp(180px, 46vw, 330px); aspect-ratio:.78;
+    filter:drop-shadow(0 10px 18px rgba(96,52,52,.13));
+  }
+  .hero-flora.tl{top:-3%; left:-17%;}
+  .hero-flora.tr{top:-3%; right:-17%; transform:scaleX(-1);}
+  .hero-flora.bl{bottom:1%; left:-19%; transform:scaleY(-1);}
+  .hero-flora.br{bottom:1%; right:-19%; transform:scale(-1,-1);}
+  @media (min-width:900px){
+    .hero-flora{width:clamp(240px, 21vw, 340px);}
+    .hero-flora.tl{top:-5%; left:-4%;}
+    .hero-flora.tr{top:-5%; right:-4%;}
+    .hero-flora.bl{bottom:-2%; left:-4%;}
+    .hero-flora.br{bottom:-2%; right:-4%;}
+  }
+
+  /* the invitation card itself */
+  .card{
+    position:relative; width:100%; max-width:560px;
+    background:linear-gradient(180deg,#fffdfb 0%, #fdf6f0 100%);
+    border:1px solid rgba(180,131,79,.32);
+    padding:clamp(46px,8vw,72px) clamp(26px,6vw,56px) clamp(40px,7vw,62px);
+    display:flex; flex-direction:column; align-items:center; gap:clamp(11px,2vw,16px);
+    text-align:center;
+    box-shadow:0 46px 80px -46px rgba(90,42,50,.5), 0 4px 16px rgba(90,42,50,.07);
+  }
+  .card::before{
+    content:""; position:absolute; inset:9px; pointer-events:none;
+    border:1px solid rgba(180,131,79,.2);
+  }
+  .card-corner{position:absolute; width:clamp(56px,13vw,84px); color:var(--rose); opacity:.5;}
+  .card-corner.tl{top:20px; left:20px;}
+  .card-corner.tr{top:20px; right:20px; transform:scaleX(-1);}
+  .card-corner.bl{bottom:20px; left:20px; transform:scaleY(-1);}
+  .card-corner.br{bottom:20px; right:20px; transform:scale(-1,-1);}
+
+  .card-logo{width:clamp(126px,32vw,178px); display:block; margin-bottom:10px;}
+
+  .name-block{display:flex; flex-direction:column; align-items:center;}
+  .hero-names{
+    font-size:clamp(40px, 9vw, 72px); line-height:1.1; color:var(--rose-deep);
+    letter-spacing:.02em;
+  }
+  .hero-party{
+    font-size:clamp(58px, 14vw, 112px); line-height:1.02; color:var(--gold);
+    margin-top:-2px;
+  }
+
+  .date-rule{display:flex; align-items:center; gap:16px; width:100%; max-width:330px; margin-top:10px;}
+  .date-rule .rule{flex:1; height:1px; background:linear-gradient(90deg, transparent, rgba(180,131,79,.6));}
+  .date-rule .rule.r{background:linear-gradient(90deg, rgba(180,131,79,.6), transparent);}
+  .date-rule .date{
+    font-variant-numeric:tabular-nums; letter-spacing:.2em; white-space:nowrap;
+    font-size:clamp(15px,2vw,18px); color:var(--charcoal); font-weight:500;
+  }
+  .hero-venue{letter-spacing:.22em; font-size:11.5px; text-transform:uppercase; color:var(--ink-soft);}
+  .hero-tagline{
+    font-family:'Bodoni Moda', serif; font-style:italic; color:var(--ink-soft);
+    font-size:clamp(15px,1.9vw,18px); max-width:330px; line-height:1.7; margin-top:12px; text-wrap:balance;
+  }
+
+  /* contents settle in one after another once the envelope is open */
+  #hero-reveal .card-el{
+    opacity:0; transform:translateY(14px);
+    transition:opacity .95s ease, transform .95s cubic-bezier(.3,.1,.2,1);
+    transition-delay:calc(var(--i,0) * 110ms + 250ms);
+  }
+  #hero-reveal.in .card-el{opacity:1; transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    #hero-reveal .card-el{opacity:1!important; transform:none!important; transition:none!important;}
+    body.is-sealed .hero{transform:none;}
+  }
+
+  .scroll-cue{margin-top:clamp(26px,5vh,42px); display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none;}
+  .scroll-cue .line{width:1px; height:38px; background:var(--hairline); position:relative; overflow:hidden;}
+  .scroll-cue .line::after{content:""; position:absolute; top:-40%; left:0; width:100%; height:40%; background:var(--gold); animation:drip 2.4s ease-in-out infinite;}
+  @keyframes drip{0%{top:-40%;} 100%{top:100%;}}
+  @media (prefers-reduced-motion:reduce){.scroll-cue .line::after{animation:none; top:60%;}}
+
+  /* ================= COUNTDOWN ================= */
+  .countdown{display:flex; align-items:flex-start; justify-content:center; gap:6px; flex-wrap:wrap; margin-top:4px;}
+  .cd-unit{display:flex; flex-direction:column; align-items:center; gap:8px; min-width:64px;}
+  .cd-num{font-family:'Jost'; font-weight:300; font-variant-numeric:tabular-nums; font-size:clamp(32px,7vw,54px); color:var(--rose-deep); line-height:1;}
+  .cd-lbl{font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft);}
+  .cd-sep{font-family:'Jost'; font-weight:300; font-size:clamp(24px,5vw,40px); color:var(--gold-soft); align-self:flex-start; padding-top:2px;}
+
+  /* ================= STORY ================= */
+  .story-lines{font-size:clamp(26px,5vw,42px); line-height:1.5; color:var(--rose-deep);}
+  .story-lines em{font-style:italic; color:var(--gold);}
+
+  /* ================= DETAILS / TIMELINE ================= */
+  .detail-grid{display:flex; flex-direction:column; gap:22px; width:100%; max-width:360px;}
+  .detail-row{display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; border-bottom:1px solid var(--hairline);}
+  .detail-row .k{font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-soft);}
+  .detail-row .v{font-family:'Bodoni Moda',serif; font-size:19px; color:var(--charcoal); text-align:right;}
+  .timeline{display:flex; flex-direction:column; align-items:center; gap:18px; width:100%;}
+  .timeline.single .stop{flex-direction:column; text-align:center; gap:10px;}
+  .stop{display:flex; align-items:center; gap:18px; width:100%; max-width:420px; text-align:left;}
+  .stop .t-hair{flex:1; height:1px; background:var(--hairline);}
+  .stop .t-time{font-variant-numeric:tabular-nums; letter-spacing:.14em; font-size:14px; color:var(--gold);}
+  .stop .t-title{font-family:'Bodoni Moda',serif; font-size:22px; color:var(--charcoal);}
+  .stop .t-desc{font-size:14px; color:var(--ink-soft); margin-top:2px;}
+
+  /* ================= DRESS CODE ================= */
+  .dress-copy{max-width:430px; font-size:16px; color:var(--ink-soft); line-height:1.7;}
+  .swatches{display:flex; gap:clamp(8px,3vw,26px); flex-wrap:wrap; justify-content:center; margin-top:10px;}
+  .sw{display:flex; flex-direction:column; align-items:center; gap:10px; width:clamp(60px,17vw,78px);}
+  .sw i{
+    width:clamp(40px,11vw,52px); aspect-ratio:1; border-radius:50%; background:var(--c);
+    border:1px solid var(--hairline); box-shadow:0 6px 14px -8px rgba(90,42,50,.5);
+  }
+  .sw span{font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); text-align:center;}
+
+  /* ================= MUSIC ================= */
+  .music-btn{
+    position:fixed; left:20px; bottom:20px; z-index:50;
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--gold);
+    background:var(--ivory); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 10px rgba(90,42,50,.14);
+    opacity:0; transform:translateY(10px); transition:opacity .6s ease .4s, transform .6s ease .4s;
+  }
+  .music-btn.show{opacity:1; transform:translateY(0);}
+  .music-btn svg{width:17px; height:17px; color:var(--rose-deep);}
+  .music-btn.playing{animation:spin 6s linear infinite;}
+  @keyframes spin{from{transform:rotate(0);} to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion:reduce){.music-btn.playing{animation:none;}}
+  .toast{
+    position:fixed; left:50%; bottom:80px; transform:translate(-50%,8px); z-index:80;
+    background:var(--rose-deep); color:var(--ivory); font-size:13px; letter-spacing:.03em;
+    padding:11px 20px; opacity:0; transition:opacity .3s ease, transform .3s ease; pointer-events:none;
+  }
+  .toast.show{opacity:1; transform:translate(-50%,0);}
+
+  /* ================= FINAL ================= */
+  .final{background:var(--rose-deep); color:var(--ivory); text-align:center; padding:120px 24px;}
+  .final .laurel{color:var(--gold-soft); width:150px; opacity:.9;}
+  .final-logo{width:clamp(148px,36vw,208px); display:block; margin:0 auto 20px; color:var(--gold-soft);}
+  .final-names{font-family:'Bodoni Moda',serif; font-size:clamp(32px,6vw,52px); margin-top:18px; line-height:1.3;}
+  .final-party{font-family:'Mrs Saint Delafield'; font-size:clamp(34px,7vw,56px); color:var(--gold-soft); line-height:.9;}
+  .final-date{letter-spacing:.24em; font-size:13px; color:var(--gold-soft); margin-top:14px;}
+  .final-line{font-family:'Bodoni Moda',serif; font-style:italic; font-size:18px; color:rgba(250,246,238,.75); margin-top:28px; max-width:340px;}
+
+  @media (max-width:480px){
+    .section{padding:88px 18px;}
+    .cd-unit{min-width:52px;}
+  }
+</style>
+
+<!-- shared botanical symbols -->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="sprig" viewBox="0 0 220 70" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+    <path d="M4 58 C50 46 100 26 214 6"/>
+    <ellipse cx="34" cy="49" rx="9" ry="4.6" transform="rotate(-20 34 49)"/>
+    <ellipse cx="62" cy="38" rx="9" ry="4.6" transform="rotate(-28 62 38)"/>
+    <ellipse cx="94" cy="27" rx="9" ry="4.6" transform="rotate(-34 94 27)"/>
+    <ellipse cx="128" cy="19" rx="9" ry="4.6" transform="rotate(-18 128 19)"/>
+    <ellipse cx="158" cy="14" rx="8" ry="4.2" transform="rotate(-12 158 14)"/>
+    <ellipse cx="46" cy="53" rx="7" ry="3.6" transform="rotate(30 46 53)"/>
+    <ellipse cx="78" cy="34" rx="7" ry="3.6" transform="rotate(24 78 34)"/>
+    <ellipse cx="112" cy="24" rx="7" ry="3.6" transform="rotate(20 112 24)"/>
+  </symbol>
+  <symbol id="laurel" viewBox="0 0 150 40" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+    <path d="M75 6 C60 6 46 16 40 30"/>
+    <path d="M75 6 C90 6 104 16 110 30"/>
+    <ellipse cx="52" cy="14" rx="6" ry="3.4" transform="rotate(-35 52 14)"/>
+    <ellipse cx="44" cy="22" rx="6" ry="3.4" transform="rotate(-55 44 22)"/>
+    <ellipse cx="36" cy="29" rx="5.5" ry="3" transform="rotate(-70 36 29)"/>
+    <ellipse cx="98" cy="14" rx="6" ry="3.4" transform="rotate(35 98 14)"/>
+    <ellipse cx="106" cy="22" rx="6" ry="3.4" transform="rotate(55 106 22)"/>
+    <ellipse cx="114" cy="29" rx="5.5" ry="3" transform="rotate(70 114 29)"/>
+  </symbol>
+
+  <!-- engraved damask used on the envelope flaps -->
+  <symbol id="rose-e" viewBox="0 0 60 60">
+    <g fill="none" stroke="#eec8b6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M30 8c8 0 14 5 15 12-6 2-12 0-15-5"/>
+      <path d="M45 20c6 5 7 13 3 19-5-2-8-8-7-14"/>
+      <path d="M48 39c-2 8-9 13-16 13 0-6 4-11 10-13"/>
+      <path d="M32 52c-8 1-15-3-17-10 5-3 12-2 16 3"/>
+      <path d="M15 42c-6-5-7-13-3-19 5 2 8 8 7 14"/>
+      <path d="M12 23c2-8 9-13 16-13 0 6-4 11-10 13"/>
+      <path d="M30 20c6.2 0 10.6 4.4 10.6 10s-4.4 10-10.6 10-9.6-3.8-9.6-9 3.6-8.2 8.4-8.2 7.6 3 7.6 6.8-2.6 6-5.6 6-4.6-1.8-4.6-4"/>
+    </g>
+  </symbol>
+  <symbol id="fern-e" viewBox="0 0 60 60">
+    <g fill="none" stroke="#eec8b6" stroke-width="1" stroke-linecap="round">
+      <path d="M4 57C15 46 24 30 28 4"/>
+      <path d="M9.5 47.5c-3.6-2.4-5-6.3-3.5-9.8 3.9 1.2 6.4 4.6 6.1 8.4"/>
+      <path d="M14.5 39c-3.6-2.4-5-6.3-3.5-9.8 3.9 1.2 6.4 4.6 6.1 8.4"/>
+      <path d="M19 30c-3.4-2.6-4.6-6.5-3-9.9 3.8 1.3 6.2 4.8 5.8 8.5"/>
+      <path d="M23 20c-3-2.9-3.9-6.8-2-10 3.6 1.7 5.7 5.3 4.9 8.9"/>
+      <path d="M12 48.5c4.2-.8 7.9 1.3 9.2 5-3.6 2-7.9.9-10-2"/>
+      <path d="M17 39.5c4.2-.8 7.9 1.3 9.2 5-3.6 2-7.9.9-10-2"/>
+      <path d="M21.5 30c4.2-.8 7.9 1.3 9.2 5-3.6 2-7.9.9-10-2"/>
+    </g>
+  </symbol>
+  <symbol id="corner-orn" viewBox="0 0 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+      <path d="M2 30C2 14.5 14.5 2 30 2"/>
+      <path d="M3 47C11 30.5 30.5 11 48 3"/>
+      <ellipse cx="12.5" cy="34" rx="7.5" ry="3.6" transform="rotate(-52 12.5 34)"/>
+      <ellipse cx="20.5" cy="24.5" rx="7.5" ry="3.6" transform="rotate(-44 20.5 24.5)"/>
+      <ellipse cx="30.5" cy="15.5" rx="7.5" ry="3.6" transform="rotate(-34 30.5 15.5)"/>
+      <ellipse cx="41.5" cy="8.5" rx="6.5" ry="3.2" transform="rotate(-22 41.5 8.5)"/>
+      <ellipse cx="8.5" cy="45" rx="7" ry="3.4" transform="rotate(-62 8.5 45)"/>
+      <path d="M27 44c6-2.2 11.2.4 13.2 5.4-5 2.6-10.8.8-13.2-2.4"/>
+      <path d="M16 33c5.6-2.6 11-.6 13.4 4.2-4.6 3-10.6 1.8-13.4-1.2"/>
+    </g>
+  </symbol>
+  <pattern id="damask-soft" width="330" height="330" patternUnits="userSpaceOnUse" patternTransform="rotate(-9)">
+    <use href="#rose-e" x="10" y="14" width="120" height="120"/>
+    <use href="#fern-e" x="168" y="0" width="140" height="140"/>
+    <use href="#rose-e" x="196" y="176" width="112" height="112"/>
+    <use href="#fern-e" x="8" y="182" width="132" height="132"/>
+  </pattern>
+  <pattern id="damask" width="210" height="210" patternUnits="userSpaceOnUse">
+    <use href="#rose-e" x="0" y="0" width="92" height="92"/>
+    <use href="#fern-e" x="96" y="-6" width="104" height="104"/>
+    <use href="#rose-e" x="120" y="86" width="86" height="86"/>
+    <use href="#fern-e" x="-8" y="96" width="98" height="98" transform="rotate(180 41 145)"/>
+    <use href="#rose-e" x="66" y="62" width="56" height="56"/>
+    <use href="#fern-e" x="150" y="150" width="76" height="76" transform="rotate(90 188 188)"/>
+    <use href="#rose-e" x="18" y="150" width="58" height="58"/>
+  </pattern>
+
+  <!-- painted botanical library: shared by the gilded envelope and the flowers inside -->
+  <defs>
+    <path id="pt" d="M0 0C21-5 25-28 0-40C-25-28-21-5 0 0Z"/>
+    <path id="pt2" d="M0 0C8-6 9-24 0-36C-9-24-8-6 0 0Z"/>
+    <path id="lf" d="M0 0C15-11 21-34 0-58C-21-34-15-11 0 0Z"/>
+  </defs>
+  <g id="bloom">
+    <g fill="var(--p2)">
+      <use href="#pt" transform="rotate(0)"/><use href="#pt" transform="rotate(33)"/>
+      <use href="#pt" transform="rotate(65)"/><use href="#pt" transform="rotate(98)"/>
+      <use href="#pt" transform="rotate(131)"/><use href="#pt" transform="rotate(164)"/>
+      <use href="#pt" transform="rotate(196)"/><use href="#pt" transform="rotate(229)"/>
+      <use href="#pt" transform="rotate(262)"/><use href="#pt" transform="rotate(295)"/>
+      <use href="#pt" transform="rotate(327)"/>
+    </g>
+    <g fill="var(--p1)" transform="scale(.76) rotate(17)">
+      <use href="#pt" transform="rotate(0)"/><use href="#pt" transform="rotate(40)"/>
+      <use href="#pt" transform="rotate(80)"/><use href="#pt" transform="rotate(120)"/>
+      <use href="#pt" transform="rotate(160)"/><use href="#pt" transform="rotate(200)"/>
+      <use href="#pt" transform="rotate(240)"/><use href="#pt" transform="rotate(280)"/>
+      <use href="#pt" transform="rotate(320)"/>
+    </g>
+    <g fill="var(--p0)" transform="scale(.52) rotate(34)">
+      <use href="#pt" transform="rotate(0)"/><use href="#pt" transform="rotate(51)"/>
+      <use href="#pt" transform="rotate(103)"/><use href="#pt" transform="rotate(154)"/>
+      <use href="#pt" transform="rotate(206)"/><use href="#pt" transform="rotate(257)"/>
+      <use href="#pt" transform="rotate(309)"/>
+    </g>
+    <g fill="var(--p1)" transform="scale(.28) rotate(12)">
+      <use href="#pt" transform="rotate(0)"/><use href="#pt" transform="rotate(72)"/>
+      <use href="#pt" transform="rotate(144)"/><use href="#pt" transform="rotate(216)"/>
+      <use href="#pt" transform="rotate(288)"/>
+    </g>
+    <circle r="4.5" fill="var(--core)"/>
+  </g>
+  <g id="daisy">
+    <g fill="var(--p0)">
+      <use href="#pt2" transform="rotate(0)"/><use href="#pt2" transform="rotate(36)"/>
+      <use href="#pt2" transform="rotate(72)"/><use href="#pt2" transform="rotate(108)"/>
+      <use href="#pt2" transform="rotate(144)"/><use href="#pt2" transform="rotate(180)"/>
+      <use href="#pt2" transform="rotate(216)"/><use href="#pt2" transform="rotate(252)"/>
+      <use href="#pt2" transform="rotate(288)"/><use href="#pt2" transform="rotate(324)"/>
+    </g>
+    <circle r="5.5" fill="var(--core)"/>
+  </g>
+  <g id="budx">
+    <use href="#pt" transform="scale(.62)" fill="var(--p2)"/>
+    <use href="#pt" transform="scale(.46) rotate(16)" fill="var(--p1)"/>
+    <use href="#lf" transform="rotate(150) scale(.3)" fill="var(--l1)"/>
+  </g>
+  <g id="leafspray">
+    <path d="M0 0C26-10 62-34 88-84" fill="none" stroke="var(--l2)" stroke-width="2.6" stroke-linecap="round"/>
+    <use href="#lf" transform="translate(18,-7) rotate(62) scale(.42)" fill="var(--l1)"/>
+    <use href="#lf" transform="translate(30,-16) rotate(-10) scale(.4)" fill="var(--l0)"/>
+    <use href="#lf" transform="translate(46,-30) rotate(56) scale(.46)" fill="var(--l1)"/>
+    <use href="#lf" transform="translate(58,-44) rotate(-16) scale(.42)" fill="var(--l0)"/>
+    <use href="#lf" transform="translate(72,-60) rotate(48) scale(.4)" fill="var(--l1)"/>
+    <use href="#lf" transform="translate(84,-78) rotate(-6) scale(.34)" fill="var(--l0)"/>
+  </g>
+  <g id="cluster">
+    <g opacity=".95">
+      <use href="#leafspray" transform="translate(0,132) rotate(-64) scale(1.05)"/>
+      <use href="#leafspray" transform="translate(10,208) rotate(-34) scale(1.15)"/>
+      <use href="#leafspray" transform="translate(30,286) rotate(-4) scale(1.2)"/>
+      <use href="#leafspray" transform="translate(96,330) rotate(26) scale(1.1)"/>
+      <use href="#leafspray" transform="translate(184,344) rotate(56) scale(.95)"/>
+      <use href="#leafspray" transform="translate(150,150) rotate(-2) scale(.8)"/>
+      <use href="#leafspray" transform="translate(60,80) rotate(-40) scale(.75)"/>
+    </g>
+    <use href="#bloom" transform="translate(96,196) scale(1.12)"/>
+    <use href="#bloom" transform="translate(178,254) scale(.8) rotate(18)"/>
+    <use href="#bloom" transform="translate(46,272) scale(.72) rotate(-14)"/>
+    <use href="#bloom" transform="translate(150,132) scale(.66) rotate(26)"/>
+    <use href="#daisy" transform="translate(56,124) scale(.8)"/>
+    <use href="#daisy" transform="translate(128,300) scale(.68)"/>
+    <use href="#daisy" transform="translate(214,190) scale(.58)"/>
+    <use href="#budx"  transform="translate(232,296) rotate(40) scale(.95)"/>
+    <use href="#budx"  transform="translate(16,350) rotate(-16) scale(.85)"/>
+    <use href="#budx"  transform="translate(206,110) rotate(28) scale(.7)"/>
+  </g>
+  <g id="ornSideL"><use href="#cluster" transform="translate(-52,214) scale(.86)"/></g>
+  <g id="ornSideR"><use href="#cluster" transform="translate(452,214) scale(-.86,.86)"/></g>
+  <g id="ornBotL"><use href="#cluster" transform="translate(-30,516) scale(.66)"/></g>
+  <g id="ornBotR"><use href="#cluster" transform="translate(430,516) scale(-.66,.66)"/></g>
+  <g id="ornTop">
+    <use href="#leafspray" transform="translate(186,168) rotate(-24) scale(.66)"/>
+    <use href="#leafspray" transform="translate(214,168) rotate(24) scale(-.66,.66)"/>
+    <use href="#budx" transform="translate(200,132) scale(.85)"/>
+    <use href="#daisy" transform="translate(200,168) scale(.5)"/>
+  </g>
+
+  <!-- monogram MR: rose gold with the beige rules, and a flat silhouette
+       that takes its colour from CSS (wax seal, footer) -->
+  <symbol id="mr-logo" viewBox="49 104 414 306">
+    <defs>
+<linearGradient id="mr-rose" gradientUnits="userSpaceOnUse" x1="140" y1="96" x2="372" y2="424" gradientTransform="rotate(12 256 256)"><stop offset="0.0%" stop-color="#6b3038"/><stop offset="5.0%" stop-color="#9a4b4e"/><stop offset="11.0%" stop-color="#c06d68"/><stop offset="17.0%" stop-color="#dd9287"/><stop offset="23.0%" stop-color="#f6c9bd"/><stop offset="28.0%" stop-color="#fff8f4"/><stop offset="33.0%" stop-color="#f7d1c6"/><stop offset="40.0%" stop-color="#e09b8d"/><stop offset="47.0%" stop-color="#c47668"/><stop offset="53.0%" stop-color="#a0544b"/><stop offset="59.0%" stop-color="#86423c"/><stop offset="65.0%" stop-color="#ab6357"/><stop offset="72.0%" stop-color="#d08c7c"/><stop offset="79.0%" stop-color="#ecbdae"/><stop offset="85.0%" stop-color="#fde8e0"/><stop offset="90.0%" stop-color="#e2a795"/><stop offset="95.0%" stop-color="#b76a5c"/><stop offset="100.0%" stop-color="#7a3a38"/></linearGradient>
+<linearGradient id="mr-beige" gradientUnits="userSpaceOnUse" x1="150" y1="340" x2="362" y2="430" gradientTransform="rotate(18 256 256)"><stop offset="0.0%" stop-color="#6b5033"/><stop offset="16.0%" stop-color="#a5815c"/><stop offset="32.0%" stop-color="#e3caa6"/><stop offset="46.0%" stop-color="#c29d76"/><stop offset="60.0%" stop-color="#775c3d"/><stop offset="74.0%" stop-color="#b08d67"/><stop offset="88.0%" stop-color="#e5d0b1"/><stop offset="100.0%" stop-color="#705436"/></linearGradient>
+<linearGradient id="mr-gem" gradientUnits="userSpaceOnUse" x1="236" y1="360" x2="276" y2="404" gradientTransform="rotate(12 256 256)"><stop offset="0.0%" stop-color="#6b3038"/><stop offset="5.0%" stop-color="#9a4b4e"/><stop offset="11.0%" stop-color="#c06d68"/><stop offset="17.0%" stop-color="#dd9287"/><stop offset="23.0%" stop-color="#f6c9bd"/><stop offset="28.0%" stop-color="#fff8f4"/><stop offset="33.0%" stop-color="#f7d1c6"/><stop offset="40.0%" stop-color="#e09b8d"/><stop offset="47.0%" stop-color="#c47668"/><stop offset="53.0%" stop-color="#a0544b"/><stop offset="59.0%" stop-color="#86423c"/><stop offset="65.0%" stop-color="#ab6357"/><stop offset="72.0%" stop-color="#d08c7c"/><stop offset="79.0%" stop-color="#ecbdae"/><stop offset="85.0%" stop-color="#fde8e0"/><stop offset="90.0%" stop-color="#e2a795"/><stop offset="95.0%" stop-color="#b76a5c"/><stop offset="100.0%" stop-color="#7a3a38"/></linearGradient>
+<linearGradient id="mr-sheen" gradientUnits="userSpaceOnUse" x1="120" y1="80" x2="300" y2="300">
+  <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+  <stop offset="30%" stop-color="#fff6f2" stop-opacity="0.40"/>
+  <stop offset="46%" stop-color="#ffffff" stop-opacity="0.05"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="mr-clip"><path d="M284.710 117.840 287.087 141.898 207.934 303.611Q207.934 303.611 205.495 308.722Q203.056 313.834 200.528 320.997Q198.001 328.161 197.350 334.761H194.438L187.753 313.636ZM95.713 308.309V330.000H62.730V327.029Q63.027 327.029 65.256 327.029Q67.484 327.029 67.484 327.029Q75.507 327.029 81.747 322.126Q87.987 317.223 89.176 308.309ZM105.833 313.063Q105.833 313.360 105.833 313.657Q105.833 313.954 105.833 314.549Q105.833 319.303 109.250 323.314Q112.668 327.326 117.422 327.326H121.939V330.000H103.753V313.063ZM112.243 117.840H115.154L122.601 139.461L104.227 330.000H86.678ZM115.154 117.840 204.580 294.420 194.438 334.761 108.847 163.509ZM287.384 117.840 313.841 330.000H282.485L266.563 164.425L284.710 117.840ZM304.806 308.309H311.106Q312.592 317.223 318.802 322.126Q325.012 327.029 332.798 327.029Q332.798 327.029 335.145 327.029Q337.492 327.029 337.552 327.029V330.000H304.806ZM280.879 313.063H282.959V330.000H264.773V327.326H269.290Q274.281 327.326 277.580 323.314Q280.879 319.303 280.879 314.549Q280.879 313.954 280.879 313.657Q280.879 313.360 280.879 313.063Z M297.989 122.000H338.683Q352.055 122.000 363.532 125.562Q375.009 129.124 383.280 136.164Q391.550 143.203 396.193 153.605Q400.836 164.007 400.836 177.923Q400.836 191.584 394.661 204.448Q388.487 217.312 377.287 225.664Q366.088 234.016 350.923 234.617Q357.478 236.998 364.082 243.837Q370.687 250.677 375.324 257.221Q375.445 257.402 379.125 262.865Q382.806 268.329 388.416 276.198Q394.026 284.067 399.846 291.789Q405.665 299.511 410.062 304.446Q416.185 311.524 421.947 316.515Q427.710 321.507 434.332 324.238Q440.954 326.968 449.270 327.029V330.000H428.718Q414.207 330.000 403.200 326.261Q392.194 322.522 384.307 316.220Q376.420 309.918 370.764 302.288Q369.391 300.257 365.771 294.672Q362.150 289.086 357.465 281.783Q352.780 274.480 348.303 267.386Q343.827 260.292 340.565 255.035Q337.304 249.779 336.589 248.286Q331.485 240.196 325.192 234.437Q318.899 228.678 311.657 228.377V225.406Q311.898 225.406 315.872 225.524Q319.847 225.643 325.181 225.406Q333.027 225.169 341.697 222.728Q350.367 220.287 357.668 213.449Q364.970 206.611 368.588 193.360Q369.359 190.272 369.894 185.790Q370.428 181.308 370.131 176.674Q369.653 156.108 359.759 144.765Q349.865 133.422 333.886 132.711Q326.950 132.237 319.477 132.356Q312.004 132.474 306.723 132.474Q301.441 132.474 300.960 132.474Q300.960 132.237 300.217 129.678Q299.475 127.119 298.732 124.559Q297.989 122.000 297.989 122.000ZM301.852 122.000V330.000H274.058V122.000ZM274.949 308.309V330.000H251.178V327.029Q251.298 327.029 253.139 327.029Q254.981 327.029 255.041 327.029Q262.766 327.029 268.264 321.531Q273.761 316.034 274.058 308.309ZM274.949 143.691H274.058Q273.761 135.966 268.264 130.469Q262.766 124.971 255.041 124.971Q254.981 124.971 253.139 124.971Q251.298 124.971 251.178 124.971V122.000H274.949ZM300.960 308.309H301.852Q301.852 316.034 307.497 321.531Q313.143 327.029 320.869 327.029Q320.989 327.029 322.682 327.029Q324.374 327.029 324.435 327.029V330.000H300.960Z"/></clipPath>
+<filter id="mr-bevel" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="2.1" result="b"/>
+  <feSpecularLighting in="b" surfaceScale="3.4" specularConstant="1.05" specularExponent="26"
+      lighting-color="#fff6f0" result="sp"><fePointLight x="-240" y="-300" z="540"/></feSpecularLighting>
+  <feComposite in="sp" in2="SourceAlpha" operator="in" result="spc"/>
+  <feComposite in="SourceGraphic" in2="spc" operator="arithmetic" k1="0" k2="1" k3="0.88" k4="0"/>
+</filter>
+<filter id="mr-drop" x="-35%" y="-35%" width="170%" height="180%" color-interpolation-filters="sRGB">
+  <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#7a4a42" flood-opacity="0.34"/>
+  <feDropShadow dx="0" dy="1" stdDeviation="1.4" flood-color="#5e3630" flood-opacity="0.38"/>
+</filter>
+<filter id="mr-glow" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+  <feGaussianBlur stdDeviation="15" result="g"/>
+  <feColorMatrix in="g" type="matrix"
+      values="1.15 0 0 0 0.08  0 0.62 0 0 0.02  0 0 0.55 0 0.02  0 0 0 0.5 0"/>
+</filter>
+</defs>
+    <g>
+  <g filter="url(#mr-drop)">
+    <g filter="url(#mr-bevel)"><path d="M284.710 117.840 287.087 141.898 207.934 303.611Q207.934 303.611 205.495 308.722Q203.056 313.834 200.528 320.997Q198.001 328.161 197.350 334.761H194.438L187.753 313.636ZM95.713 308.309V330.000H62.730V327.029Q63.027 327.029 65.256 327.029Q67.484 327.029 67.484 327.029Q75.507 327.029 81.747 322.126Q87.987 317.223 89.176 308.309ZM105.833 313.063Q105.833 313.360 105.833 313.657Q105.833 313.954 105.833 314.549Q105.833 319.303 109.250 323.314Q112.668 327.326 117.422 327.326H121.939V330.000H103.753V313.063ZM112.243 117.840H115.154L122.601 139.461L104.227 330.000H86.678ZM115.154 117.840 204.580 294.420 194.438 334.761 108.847 163.509ZM287.384 117.840 313.841 330.000H282.485L266.563 164.425L284.710 117.840ZM304.806 308.309H311.106Q312.592 317.223 318.802 322.126Q325.012 327.029 332.798 327.029Q332.798 327.029 335.145 327.029Q337.492 327.029 337.552 327.029V330.000H304.806ZM280.879 313.063H282.959V330.000H264.773V327.326H269.290Q274.281 327.326 277.580 323.314Q280.879 319.303 280.879 314.549Q280.879 313.954 280.879 313.657Q280.879 313.360 280.879 313.063Z M297.989 122.000H338.683Q352.055 122.000 363.532 125.562Q375.009 129.124 383.280 136.164Q391.550 143.203 396.193 153.605Q400.836 164.007 400.836 177.923Q400.836 191.584 394.661 204.448Q388.487 217.312 377.287 225.664Q366.088 234.016 350.923 234.617Q357.478 236.998 364.082 243.837Q370.687 250.677 375.324 257.221Q375.445 257.402 379.125 262.865Q382.806 268.329 388.416 276.198Q394.026 284.067 399.846 291.789Q405.665 299.511 410.062 304.446Q416.185 311.524 421.947 316.515Q427.710 321.507 434.332 324.238Q440.954 326.968 449.270 327.029V330.000H428.718Q414.207 330.000 403.200 326.261Q392.194 322.522 384.307 316.220Q376.420 309.918 370.764 302.288Q369.391 300.257 365.771 294.672Q362.150 289.086 357.465 281.783Q352.780 274.480 348.303 267.386Q343.827 260.292 340.565 255.035Q337.304 249.779 336.589 248.286Q331.485 240.196 325.192 234.437Q318.899 228.678 311.657 228.377V225.406Q311.898 225.406 315.872 225.524Q319.847 225.643 325.181 225.406Q333.027 225.169 341.697 222.728Q350.367 220.287 357.668 213.449Q364.970 206.611 368.588 193.360Q369.359 190.272 369.894 185.790Q370.428 181.308 370.131 176.674Q369.653 156.108 359.759 144.765Q349.865 133.422 333.886 132.711Q326.950 132.237 319.477 132.356Q312.004 132.474 306.723 132.474Q301.441 132.474 300.960 132.474Q300.960 132.237 300.217 129.678Q299.475 127.119 298.732 124.559Q297.989 122.000 297.989 122.000ZM301.852 122.000V330.000H274.058V122.000ZM274.949 308.309V330.000H251.178V327.029Q251.298 327.029 253.139 327.029Q254.981 327.029 255.041 327.029Q262.766 327.029 268.264 321.531Q273.761 316.034 274.058 308.309ZM274.949 143.691H274.058Q273.761 135.966 268.264 130.469Q262.766 124.971 255.041 124.971Q254.981 124.971 253.139 124.971Q251.298 124.971 251.178 124.971V122.000H274.949ZM300.960 308.309H301.852Q301.852 316.034 307.497 321.531Q313.143 327.029 320.869 327.029Q320.989 327.029 322.682 327.029Q324.374 327.029 324.435 327.029V330.000H300.960Z" fill="url(#mr-rose)"/></g>
+    <g clip-path="url(#mr-clip)">
+      <rect x="0" y="0" width="512" height="512" fill="url(#mr-sheen)"/>
+      <path d="M284.710 117.840 287.087 141.898 207.934 303.611Q207.934 303.611 205.495 308.722Q203.056 313.834 200.528 320.997Q198.001 328.161 197.350 334.761H194.438L187.753 313.636ZM95.713 308.309V330.000H62.730V327.029Q63.027 327.029 65.256 327.029Q67.484 327.029 67.484 327.029Q75.507 327.029 81.747 322.126Q87.987 317.223 89.176 308.309ZM105.833 313.063Q105.833 313.360 105.833 313.657Q105.833 313.954 105.833 314.549Q105.833 319.303 109.250 323.314Q112.668 327.326 117.422 327.326H121.939V330.000H103.753V313.063ZM112.243 117.840H115.154L122.601 139.461L104.227 330.000H86.678ZM115.154 117.840 204.580 294.420 194.438 334.761 108.847 163.509ZM287.384 117.840 313.841 330.000H282.485L266.563 164.425L284.710 117.840ZM304.806 308.309H311.106Q312.592 317.223 318.802 322.126Q325.012 327.029 332.798 327.029Q332.798 327.029 335.145 327.029Q337.492 327.029 337.552 327.029V330.000H304.806ZM280.879 313.063H282.959V330.000H264.773V327.326H269.290Q274.281 327.326 277.580 323.314Q280.879 319.303 280.879 314.549Q280.879 313.954 280.879 313.657Q280.879 313.360 280.879 313.063Z M297.989 122.000H338.683Q352.055 122.000 363.532 125.562Q375.009 129.124 383.280 136.164Q391.550 143.203 396.193 153.605Q400.836 164.007 400.836 177.923Q400.836 191.584 394.661 204.448Q388.487 217.312 377.287 225.664Q366.088 234.016 350.923 234.617Q357.478 236.998 364.082 243.837Q370.687 250.677 375.324 257.221Q375.445 257.402 379.125 262.865Q382.806 268.329 388.416 276.198Q394.026 284.067 399.846 291.789Q405.665 299.511 410.062 304.446Q416.185 311.524 421.947 316.515Q427.710 321.507 434.332 324.238Q440.954 326.968 449.270 327.029V330.000H428.718Q414.207 330.000 403.200 326.261Q392.194 322.522 384.307 316.220Q376.420 309.918 370.764 302.288Q369.391 300.257 365.771 294.672Q362.150 289.086 357.465 281.783Q352.780 274.480 348.303 267.386Q343.827 260.292 340.565 255.035Q337.304 249.779 336.589 248.286Q331.485 240.196 325.192 234.437Q318.899 228.678 311.657 228.377V225.406Q311.898 225.406 315.872 225.524Q319.847 225.643 325.181 225.406Q333.027 225.169 341.697 222.728Q350.367 220.287 357.668 213.449Q364.970 206.611 368.588 193.360Q369.359 190.272 369.894 185.790Q370.428 181.308 370.131 176.674Q369.653 156.108 359.759 144.765Q349.865 133.422 333.886 132.711Q326.950 132.237 319.477 132.356Q312.004 132.474 306.723 132.474Q301.441 132.474 300.960 132.474Q300.960 132.237 300.217 129.678Q299.475 127.119 298.732 124.559Q297.989 122.000 297.989 122.000ZM301.852 122.000V330.000H274.058V122.000ZM274.949 308.309V330.000H251.178V327.029Q251.298 327.029 253.139 327.029Q254.981 327.029 255.041 327.029Q262.766 327.029 268.264 321.531Q273.761 316.034 274.058 308.309ZM274.949 143.691H274.058Q273.761 135.966 268.264 130.469Q262.766 124.971 255.041 124.971Q254.981 124.971 253.139 124.971Q251.298 124.971 251.178 124.971V122.000H274.949ZM300.960 308.309H301.852Q301.852 316.034 307.497 321.531Q313.143 327.029 320.869 327.029Q320.989 327.029 322.682 327.029Q324.374 327.029 324.435 327.029V330.000H300.960Z" fill="none" stroke="#7a3a33" stroke-width="2.6" opacity="0.40"
+            transform="translate(1.1 1.6)"/>
+      <path d="M284.710 117.840 287.087 141.898 207.934 303.611Q207.934 303.611 205.495 308.722Q203.056 313.834 200.528 320.997Q198.001 328.161 197.350 334.761H194.438L187.753 313.636ZM95.713 308.309V330.000H62.730V327.029Q63.027 327.029 65.256 327.029Q67.484 327.029 67.484 327.029Q75.507 327.029 81.747 322.126Q87.987 317.223 89.176 308.309ZM105.833 313.063Q105.833 313.360 105.833 313.657Q105.833 313.954 105.833 314.549Q105.833 319.303 109.250 323.314Q112.668 327.326 117.422 327.326H121.939V330.000H103.753V313.063ZM112.243 117.840H115.154L122.601 139.461L104.227 330.000H86.678ZM115.154 117.840 204.580 294.420 194.438 334.761 108.847 163.509ZM287.384 117.840 313.841 330.000H282.485L266.563 164.425L284.710 117.840ZM304.806 308.309H311.106Q312.592 317.223 318.802 322.126Q325.012 327.029 332.798 327.029Q332.798 327.029 335.145 327.029Q337.492 327.029 337.552 327.029V330.000H304.806ZM280.879 313.063H282.959V330.000H264.773V327.326H269.290Q274.281 327.326 277.580 323.314Q280.879 319.303 280.879 314.549Q280.879 313.954 280.879 313.657Q280.879 313.360 280.879 313.063Z M297.989 122.000H338.683Q352.055 122.000 363.532 125.562Q375.009 129.124 383.280 136.164Q391.550 143.203 396.193 153.605Q400.836 164.007 400.836 177.923Q400.836 191.584 394.661 204.448Q388.487 217.312 377.287 225.664Q366.088 234.016 350.923 234.617Q357.478 236.998 364.082 243.837Q370.687 250.677 375.324 257.221Q375.445 257.402 379.125 262.865Q382.806 268.329 388.416 276.198Q394.026 284.067 399.846 291.789Q405.665 299.511 410.062 304.446Q416.185 311.524 421.947 316.515Q427.710 321.507 434.332 324.238Q440.954 326.968 449.270 327.029V330.000H428.718Q414.207 330.000 403.200 326.261Q392.194 322.522 384.307 316.220Q376.420 309.918 370.764 302.288Q369.391 300.257 365.771 294.672Q362.150 289.086 357.465 281.783Q352.780 274.480 348.303 267.386Q343.827 260.292 340.565 255.035Q337.304 249.779 336.589 248.286Q331.485 240.196 325.192 234.437Q318.899 228.678 311.657 228.377V225.406Q311.898 225.406 315.872 225.524Q319.847 225.643 325.181 225.406Q333.027 225.169 341.697 222.728Q350.367 220.287 357.668 213.449Q364.970 206.611 368.588 193.360Q369.359 190.272 369.894 185.790Q370.428 181.308 370.131 176.674Q369.653 156.108 359.759 144.765Q349.865 133.422 333.886 132.711Q326.950 132.237 319.477 132.356Q312.004 132.474 306.723 132.474Q301.441 132.474 300.960 132.474Q300.960 132.237 300.217 129.678Q299.475 127.119 298.732 124.559Q297.989 122.000 297.989 122.000ZM301.852 122.000V330.000H274.058V122.000ZM274.949 308.309V330.000H251.178V327.029Q251.298 327.029 253.139 327.029Q254.981 327.029 255.041 327.029Q262.766 327.029 268.264 321.531Q273.761 316.034 274.058 308.309ZM274.949 143.691H274.058Q273.761 135.966 268.264 130.469Q262.766 124.971 255.041 124.971Q254.981 124.971 253.139 124.971Q251.298 124.971 251.178 124.971V122.000H274.949ZM300.960 308.309H301.852Q301.852 316.034 307.497 321.531Q313.143 327.029 320.869 327.029Q320.989 327.029 322.682 327.029Q324.374 327.029 324.435 327.029V330.000H300.960Z" fill="none" stroke="#fff4ee" stroke-width="1.5" opacity="0.36"
+            transform="translate(-0.9 -1.2)"/>
+    </g>
+    <path d="M284.710 117.840 287.087 141.898 207.934 303.611Q207.934 303.611 205.495 308.722Q203.056 313.834 200.528 320.997Q198.001 328.161 197.350 334.761H194.438L187.753 313.636ZM95.713 308.309V330.000H62.730V327.029Q63.027 327.029 65.256 327.029Q67.484 327.029 67.484 327.029Q75.507 327.029 81.747 322.126Q87.987 317.223 89.176 308.309ZM105.833 313.063Q105.833 313.360 105.833 313.657Q105.833 313.954 105.833 314.549Q105.833 319.303 109.250 323.314Q112.668 327.326 117.422 327.326H121.939V330.000H103.753V313.063ZM112.243 117.840H115.154L122.601 139.461L104.227 330.000H86.678ZM115.154 117.840 204.580 294.420 194.438 334.761 108.847 163.509ZM287.384 117.840 313.841 330.000H282.485L266.563 164.425L284.710 117.840ZM304.806 308.309H311.106Q312.592 317.223 318.802 322.126Q325.012 327.029 332.798 327.029Q332.798 327.029 335.145 327.029Q337.492 327.029 337.552 327.029V330.000H304.806ZM280.879 313.063H282.959V330.000H264.773V327.326H269.290Q274.281 327.326 277.580 323.314Q280.879 319.303 280.879 314.549Q280.879 313.954 280.879 313.657Q280.879 313.360 280.879 313.063Z M297.989 122.000H338.683Q352.055 122.000 363.532 125.562Q375.009 129.124 383.280 136.164Q391.550 143.203 396.193 153.605Q400.836 164.007 400.836 177.923Q400.836 191.584 394.661 204.448Q388.487 217.312 377.287 225.664Q366.088 234.016 350.923 234.617Q357.478 236.998 364.082 243.837Q370.687 250.677 375.324 257.221Q375.445 257.402 379.125 262.865Q382.806 268.329 388.416 276.198Q394.026 284.067 399.846 291.789Q405.665 299.511 410.062 304.446Q416.185 311.524 421.947 316.515Q427.710 321.507 434.332 324.238Q440.954 326.968 449.270 327.029V330.000H428.718Q414.207 330.000 403.200 326.261Q392.194 322.522 384.307 316.220Q376.420 309.918 370.764 302.288Q369.391 300.257 365.771 294.672Q362.150 289.086 357.465 281.783Q352.780 274.480 348.303 267.386Q343.827 260.292 340.565 255.035Q337.304 249.779 336.589 248.286Q331.485 240.196 325.192 234.437Q318.899 228.678 311.657 228.377V225.406Q311.898 225.406 315.872 225.524Q319.847 225.643 325.181 225.406Q333.027 225.169 341.697 222.728Q350.367 220.287 357.668 213.449Q364.970 206.611 368.588 193.360Q369.359 190.272 369.894 185.790Q370.428 181.308 370.131 176.674Q369.653 156.108 359.759 144.765Q349.865 133.422 333.886 132.711Q326.950 132.237 319.477 132.356Q312.004 132.474 306.723 132.474Q301.441 132.474 300.960 132.474Q300.960 132.237 300.217 129.678Q299.475 127.119 298.732 124.559Q297.989 122.000 297.989 122.000ZM301.852 122.000V330.000H274.058V122.000ZM274.949 308.309V330.000H251.178V327.029Q251.298 327.029 253.139 327.029Q254.981 327.029 255.041 327.029Q262.766 327.029 268.264 321.531Q273.761 316.034 274.058 308.309ZM274.949 143.691H274.058Q273.761 135.966 268.264 130.469Q262.766 124.971 255.041 124.971Q254.981 124.971 253.139 124.971Q251.298 124.971 251.178 124.971V122.000H274.949ZM300.960 308.309H301.852Q301.852 316.034 307.497 321.531Q313.143 327.029 320.869 327.029Q320.989 327.029 322.682 327.029Q324.374 327.029 324.435 327.029V330.000H300.960Z" fill="none" stroke="#8c4c40" stroke-width="0.75" opacity="0.8"/>
+  </g>
+  <g filter="url(#mr-drop)">
+    <path d="M 126 382 Q 181.0 378.4 236 382 Q 181.0 385.6 126 382 Z" fill="url(#mr-beige)"/>
+    <path d="M 276 382 Q 331.0 378.4 386 382 Q 331.0 385.6 276 382 Z" fill="url(#mr-beige)"/>
+    <g><path d="M 256 368 L 267 382 L 256 382 Z" fill="#fff0ea"/><path d="M 256 368 L 245 382 L 256 382 Z" fill="#eab4a3"/><path d="M 256 396 L 267 382 L 256 382 Z" fill="#bd7262"/><path d="M 256 396 L 245 382 L 256 382 Z" fill="#8b4a40"/><path d="M 256 368 L 267 382 L 256 396 L 245 382 Z" fill="none" stroke="#8c4c40" stroke-width="0.6" opacity="0.75"/></g>
+  </g>
+</g>
+  </symbol>
+  <symbol id="mr-logo-flat" viewBox="22 104 468 306">
+    <path d="M257.670 117.840 260.047 141.898 180.894 303.611Q180.894 303.611 178.455 308.722Q176.016 313.834 173.488 320.997Q170.961 328.161 170.310 334.761H167.398L160.713 313.636ZM68.673 308.309V330.000H35.690V327.029Q35.987 327.029 38.216 327.029Q40.444 327.029 40.444 327.029Q48.467 327.029 54.707 322.126Q60.947 317.223 62.136 308.309ZM78.793 313.063Q78.793 313.360 78.793 313.657Q78.793 313.954 78.793 314.549Q78.793 319.303 82.210 323.314Q85.628 327.326 90.382 327.326H94.899V330.000H76.713V313.063ZM85.203 117.840H88.114L95.561 139.461L77.187 330.000H59.638ZM88.114 117.840 177.540 294.420 167.398 334.761 81.807 163.509ZM260.344 117.840 286.801 330.000H255.445L239.523 164.425L257.670 117.840ZM277.766 308.309H284.066Q285.552 317.223 291.762 322.126Q297.972 327.029 305.758 327.029Q305.758 327.029 308.105 327.029Q310.452 327.029 310.512 327.029V330.000H277.766ZM253.839 313.063H255.919V330.000H237.733V327.326H242.250Q247.241 327.326 250.540 323.314Q253.839 319.303 253.839 314.549Q253.839 313.954 253.839 313.657Q253.839 313.360 253.839 313.063Z M325.029 122.000H365.723Q379.095 122.000 390.572 125.562Q402.049 129.124 410.320 136.164Q418.590 143.203 423.233 153.605Q427.876 164.007 427.876 177.923Q427.876 191.584 421.701 204.448Q415.527 217.312 404.327 225.664Q393.128 234.016 377.963 234.617Q384.518 236.998 391.122 243.837Q397.727 250.677 402.364 257.221Q402.485 257.402 406.165 262.865Q409.846 268.329 415.456 276.198Q421.066 284.067 426.886 291.789Q432.705 299.511 437.102 304.446Q443.225 311.524 448.987 316.515Q454.750 321.507 461.372 324.238Q467.994 326.968 476.310 327.029V330.000H455.758Q441.247 330.000 430.240 326.261Q419.234 322.522 411.347 316.220Q403.460 309.918 397.804 302.288Q396.431 300.257 392.811 294.672Q389.190 289.086 384.505 281.783Q379.820 274.480 375.343 267.386Q370.867 260.292 367.605 255.035Q364.344 249.779 363.629 248.286Q358.525 240.196 352.232 234.437Q345.939 228.678 338.697 228.377V225.406Q338.938 225.406 342.912 225.524Q346.887 225.643 352.221 225.406Q360.067 225.169 368.737 222.728Q377.407 220.287 384.708 213.449Q392.010 206.611 395.628 193.360Q396.399 190.272 396.934 185.790Q397.468 181.308 397.171 176.674Q396.693 156.108 386.799 144.765Q376.905 133.422 360.926 132.711Q353.990 132.237 346.517 132.356Q339.044 132.474 333.763 132.474Q328.481 132.474 328.000 132.474Q328.000 132.237 327.257 129.678Q326.515 127.119 325.772 124.559Q325.029 122.000 325.029 122.000ZM328.892 122.000V330.000H301.098V122.000ZM301.989 308.309V330.000H278.218V327.029Q278.338 327.029 280.179 327.029Q282.021 327.029 282.081 327.029Q289.806 327.029 295.304 321.531Q300.801 316.034 301.098 308.309ZM301.989 143.691H301.098Q300.801 135.966 295.304 130.469Q289.806 124.971 282.081 124.971Q282.021 124.971 280.179 124.971Q278.338 124.971 278.218 124.971V122.000H301.989ZM328.000 308.309H328.892Q328.892 316.034 334.537 321.531Q340.183 327.029 347.909 327.029Q348.029 327.029 349.722 327.029Q351.414 327.029 351.475 327.029V330.000H328.000Z" fill="currentColor"/><path d="M 126 382 Q 181.0 378.4 236 382 Q 181.0 385.6 126 382 Z" fill="currentColor"/><path d="M 276 382 Q 331.0 378.4 386 382 Q 331.0 385.6 276 382 Z" fill="currentColor"/><path d="M 256 368 L 267 382 L 256 396 L 245 382 Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- ================= OPENING (wax-sealed envelope) ================= -->
+<div id="opening">
+  <!-- inside of the envelope: dark, then flooded with light -->
+  <div class="env-back">
+    <div class="env-interior">
+      <span class="beam beam-up"></span>
+      <span class="beam beam-down"></span>
+      <span class="core"></span>
+    </div>
+  </div>
+
+  <!-- the invitation itself, still down inside the envelope -->
+  <div class="env-card" aria-hidden="true">
+    <span class="env-card-frame"></span>
+    <svg class="env-card-logo" viewBox="0 0 414 306" aria-hidden="true"><use href="#mr-logo"/></svg>
+    <span class="env-card-grain"></span>
+    <span class="env-card-sheen"></span>
+    <span class="env-card-flare"></span>
+    <span class="env-card-shade"></span>
+  </div>
+
+  <!-- side and bottom flaps stay folded -->
+  <div class="env-front">
+    <div class="flap flap-left">
+      <svg class="flap-engraving" aria-hidden="true"><rect width="100%" height="100%" fill="url(#damask)"/></svg>
+    </div>
+    <div class="flap flap-right">
+      <svg class="flap-engraving" aria-hidden="true"><rect width="100%" height="100%" fill="url(#damask)"/></svg>
+    </div>
+    <div class="flap flap-bottom">
+      <svg class="flap-engraving" aria-hidden="true"><rect width="100%" height="100%" fill="url(#damask)"/></svg>
+    </div>
+
+    <span class="sheen"></span>
+    <span class="env-grain"></span>
+    <svg class="env-orn relief" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <use href="#ornSideL"/><use href="#ornSideR"/><use href="#ornBotL"/><use href="#ornBotR"/>
+    </svg>
+    <svg class="env-orn gilt ring2" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <use href="#ornSideL"/><use href="#ornSideR"/>
+    </svg>
+    <svg class="env-orn gilt ring3" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <use href="#ornBotL"/><use href="#ornBotR"/>
+    </svg>
+
+    <!-- shadow the top flap casts while it is still closed -->
+    <span class="flap-shade"></span>
+
+    <!-- top flap: hinged along the upper edge, folds back on tap -->
+    <div class="flap flap-top">
+      <svg class="flap-engraving" aria-hidden="true"><rect width="100%" height="100%" fill="url(#damask)"/></svg>
+      <span class="sheen"></span>
+      <svg class="env-orn relief" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#ornTop"/></svg>
+      <svg class="env-orn gilt ring1" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#ornTop"/></svg>
+    </div>
+
+    <svg class="seam-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <g class="seam-base" fill="none">
+        <line x1="0" y1="0" x2="50" y2="50"/>
+        <line x1="100" y1="0" x2="50" y2="50"/>
+        <line x1="100" y1="100" x2="50" y2="50"/>
+        <line x1="0" y1="100" x2="50" y2="50"/>
+      </g>
+      <g class="seam-hot" fill="none" mask="url(#seamMask)">
+        <line x1="0" y1="0" x2="50" y2="50"/>
+        <line x1="100" y1="0" x2="50" y2="50"/>
+        <line x1="100" y1="100" x2="50" y2="50"/>
+        <line x1="0" y1="100" x2="50" y2="50"/>
+      </g>
+      <defs>
+        <radialGradient id="seamFade" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="45%" stop-color="#fff" stop-opacity=".75"/>
+          <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="seamMask">
+          <rect width="100" height="100" fill="url(#seamFade)"/>
+        </mask>
+      </defs>
+    </svg>
+
+    <span class="env-crease"></span>
+    <span class="env-vignette"></span>
+  </div>
+
+  <!-- light spilling out over the whole scene -->
+  <div class="env-light">
+    <span class="spill spill-up"></span>
+    <span class="spill spill-down"></span>
+    <span class="bloom"></span>
+    <span class="light-wave"></span>
+    <span class="seal-glow"></span>
+  </div>
+
+  <button class="seal" id="btn-open" aria-label="Открыть приглашение">
+    <svg class="seal-svg" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <radialGradient id="waxFill" cx="36%" cy="30%" r="72%">
+          <stop offset="0%" stop-color="#fff7f3"/>
+          <stop offset="55%" stop-color="#f3d2c6"/>
+          <stop offset="100%" stop-color="#dba892"/>
+        </radialGradient>
+      </defs>
+      <path id="seal-shape" fill="url(#waxFill)"/>
+      <circle cx="60" cy="60" r="41" fill="none" stroke="#c9967f" stroke-width="1" opacity=".55"/>
+      <circle cx="60" cy="60" r="37" fill="none" stroke="#fff6f1" stroke-width="1" opacity=".5"/>
+    </svg>
+    <svg class="seal-logo" viewBox="0 0 468 306" aria-hidden="true"><use href="#mr-logo-flat"/></svg>
+    <span class="seal-ring"></span>
+  </button>
+  <span class="seal-hint">Нажмите, чтобы открыть</span>
+</div>
+
+<!-- ================= HERO — the card inside the envelope ================= -->
+<header class="hero">
+  <svg class="hero-watermark" aria-hidden="true"><rect width="100%" height="100%" fill="url(#damask-soft)"/></svg>
+  <svg class="hero-flora tl" viewBox="0 0 300 384" aria-hidden="true"><use href="#cluster" transform="translate(-10,-10) scale(1.05)"/></svg>
+  <svg class="hero-flora tr" viewBox="0 0 300 384" aria-hidden="true"><use href="#cluster" transform="translate(-10,-10) scale(1.05)"/></svg>
+  <svg class="hero-flora bl" viewBox="0 0 300 384" aria-hidden="true"><use href="#cluster" transform="translate(-10,-10) scale(1.05)"/></svg>
+  <svg class="hero-flora br" viewBox="0 0 300 384" aria-hidden="true"><use href="#cluster" transform="translate(-10,-10) scale(1.05)"/></svg>
+  <div class="hero-inner reveal stagger" id="hero-reveal">
+    <div class="card">
+      <svg class="card-corner tl" viewBox="0 0 100 100" aria-hidden="true"><use href="#corner-orn"/></svg>
+      <svg class="card-corner tr" viewBox="0 0 100 100" aria-hidden="true"><use href="#corner-orn"/></svg>
+      <svg class="card-corner bl" viewBox="0 0 100 100" aria-hidden="true"><use href="#corner-orn"/></svg>
+      <svg class="card-corner br" viewBox="0 0 100 100" aria-hidden="true"><use href="#corner-orn"/></svg>
+
+      <svg class="card-logo card-el" style="--i:0" viewBox="0 0 414 306" aria-hidden="true"><use href="#mr-logo"/></svg>
+      <div class="name-block">
+        <h1 class="hero-names serif card-el" style="--i:1">Girls</h1>
+        <span class="hero-party script card-el" style="--i:2">Party</span>
+      </div>
+      <div class="date-rule card-el" style="--i:3">
+        <span class="rule"></span>
+        <span class="date" id="hero-date">&mdash;</span>
+        <span class="rule r"></span>
+      </div>
+      <p class="hero-venue card-el" style="--i:4" id="hero-venue">&mdash;</p>
+      <p class="hero-tagline card-el" style="--i:5">Только для своих — с музыкой, фотографиями и бесконечными разговорами.</p>
+    </div>
+    <a href="#countdown" class="scroll-cue card-el" style="--i:6" aria-label="Пролистать дальше"><span class="line"></span></a>
+  </div>
+</header>
+
+<!-- ================= COUNTDOWN ================= -->
+<section id="countdown" class="section tint-a">
+  <div class="section-inner reveal">
+    <p class="eyebrow">Обратный отсчёт</p>
+    <h2 class="serif" style="font-size:clamp(24px,3.4vw,32px); color:var(--rose-deep);">До нашего мероприятия</h2>
+    <div class="countdown" aria-live="polite">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-lbl">Дней</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">Часов</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">Минут</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">Секунд</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STORY ================= -->
+<section class="section tint-b">
+  <div class="section-inner reveal">
+    <p class="story-lines serif">Только свои.<br>Только смех.<br><em>И самый тёплый день.</em></p>
+  </div>
+</section>
+
+<!-- ================= EVENT DETAILS ================= -->
+<section id="details" class="section tint-a">
+  <div class="section-inner reveal">
+    <p class="eyebrow">Детали мероприятия</p>
+    <div class="detail-grid">
+      <div class="detail-row"><span class="k">Дата</span><span class="v serif" id="d-date">&mdash;</span></div>
+      <div class="detail-row"><span class="k">Время</span><span class="v serif" id="d-time">&mdash;</span></div>
+      <div class="detail-row"><span class="k">Место</span><span class="v serif" id="d-venue">&mdash;</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section class="section tint-b">
+  <div class="section-inner reveal">
+    <p class="eyebrow">Программа мероприятия</p>
+    <h2 class="serif" style="font-size:clamp(24px,3.4vw,32px); color:var(--rose-deep);">Как всё пройдёт</h2>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</section>
+
+<!-- ================= DRESS CODE ================= -->
+<section class="section tint-a">
+  <div class="section-inner reveal">
+    <p class="eyebrow">Дресс-код</p>
+    <h2 class="serif" style="font-size:clamp(24px,3.4vw,32px); color:var(--rose-deep);">Пудра, айвори и розовое золото</h2>
+    <p class="dress-copy">Поддержите палитру мероприятия — и на снимках мы будем смотреться как одна красивая история.</p>
+    <div class="swatches" aria-hidden="true">
+      <span class="sw"><i style="--c:#f6dcd8"></i><span>Пудра</span></span>
+      <span class="sw"><i style="--c:#ecd9c3"></i><span>Бежевый</span></span>
+      <span class="sw"><i style="--c:#e0b48f"></i><span>Розовое золото</span></span>
+      <span class="sw"><i style="--c:#8a4450"></i><span>Марсала</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<footer class="final on-dark">
+  <svg class="final-logo" viewBox="0 0 468 306" aria-hidden="true"><use href="#mr-logo-flat"/></svg>
+  <p class="eyebrow">До встречи</p>
+  <h2 class="final-names">Girls <span class="final-party">Party</span></h2>
+  <p class="final-date" id="final-date">&mdash;</p>
+  <p class="final-line">Будет тепло, красиво и по-настоящему по-нашему.</p>
+</footer>
+
+<!-- ================= MUSIC ================= -->
+<button class="music-btn" id="music-btn" aria-label="Включить музыку">
+  <svg id="music-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>
+  </svg>
+</button>
+<audio id="bg-audio" loop preload="none"></audio>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  /* ---------------- config: edit freely ---------------- */
+  var invitationData = {
+    title:"Girls Party",
+    dateISO:"2026-10-17T15:00:00+05:00",   // ← дата и время мероприятия
+    venue:"Ruxshona's home",   // ← название площадки
+    music:"assets/music.mp3",  // ← фоновая музыка, включается по нажатию на печать
+    schedule:[
+      { time:"17:00", title:"Встреча гостей", description:"Приветственный коктейль и фотозона" },
+      { time:"18:00", title:"Праздничный ужин", description:"" },
+      { time:"20:00", title:"Музыка и танцы", description:"" }
+    ]
+  };
+
+  /* одна точка правки: всё ниже подставляется из invitationData */
+  var MONTHS = ["января","февраля","марта","апреля","мая","июня",
+                "июля","августа","сентября","октября","ноября","декабря"];
+  var when = new Date(invitationData.dateISO);
+  var pad2 = function(n){ return String(n).padStart(2,"0"); };
+  var dateNumeric = pad2(when.getDate()) + "." + pad2(when.getMonth()+1) + "." + when.getFullYear();
+  var dateLong = when.getDate() + " " + MONTHS[when.getMonth()] + " " + when.getFullYear();
+  var timeText = pad2(when.getHours()) + ":" + pad2(when.getMinutes());
+  var venueText = invitationData.venue || "Место уточняется";
+
+  function fill(id, text){
+    var el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+  fill("hero-date", dateNumeric);
+  fill("hero-venue", timeText + "  ·  " + venueText);
+  fill("d-date", dateNumeric);
+  fill("d-time", timeText);
+  fill("d-venue", venueText);
+  fill("final-date", dateNumeric + "  ·  " + venueText.toUpperCase());
+
+  /* ---------------- opening screen ---------------- */
+  var opening = document.getElementById('opening');
+  var btnOpen = document.getElementById('btn-open');
+  var heroReveal = document.getElementById('hero-reveal');
+  var musicBtn = document.getElementById('music-btn');
+  var envCard = document.querySelector('.env-card');
+  /* no soundtrack configured yet -> no button at all */
+  if (!invitationData.music) musicBtn.hidden = true;
+
+  /* Modest hardware gets the same choreography on a shorter clock and without
+     the stack of blurred light layers. What the phone reports about itself is
+     only a first guess — the real check is the frame rate once the opening is
+     actually running. */
+  var lowPower = (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
+                 (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+  if (lowPower || reduceMotion) document.body.classList.add('lite');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.style.overflow = 'hidden';
+  document.body.classList.add('is-sealed');
+
+  /* wax-seal outline: a softly scalloped circle, drawn once */
+  (function(){
+    var path = document.getElementById('seal-shape');
+    if (!path) return;
+    var cx = 60, cy = 60, r = 46, lobes = 12, amp = 2.5, d = [];
+    for (var i = 0; i <= 360; i += 2){
+      var a = i * Math.PI / 180;
+      var rr = r + amp * Math.cos(lobes * a);
+      d.push((cx + rr * Math.cos(a)).toFixed(2) + ',' + (cy + rr * Math.sin(a)).toFixed(2));
+    }
+    path.setAttribute('d', 'M' + d.join('L') + 'Z');
+  })();
+
+  /* opening choreography:
+     glow → light sweeps across the engraving → top flap folds back →
+     light floods out → the card is drawn up out of the envelope → the frame
+     moves into the paper until it fills the screen, and the invitation is
+     already there underneath when the opening layer dissolves */
+  var FULL = { open:2600, lift:3450, dim:4550, push:5000,
+               settle:5700, hero:6000, fade:6300, music:6950, gone:7400 };
+  var LITE = { open:750,  lift:1350, dim:2050, push:2350,
+               settle:2800, hero:3050, fade:3350, music:3900, gone:4300 };
+
+  var t0 = 0, timers = [];
+  function at(when, fn){
+    timers.push(setTimeout(fn, Math.max(0, when - (performance.now() - t0))));
+  }
+  function schedule(b){
+    at(b.open,   function(){ opening.classList.add('stage-open'); });
+    at(b.lift,   function(){ opening.classList.add('stage-lift'); });
+    at(b.dim,    function(){ opening.classList.add('stage-dim'); });
+    at(b.push,   function(){ opening.classList.add('stage-push'); });
+    at(b.settle, function(){ document.body.classList.remove('is-sealed'); });
+    at(b.hero,   function(){ heroReveal.classList.add('in'); });
+    at(b.fade,   function(){
+      opening.classList.add('stage-fade');
+      document.body.style.overflow = '';
+    });
+    at(b.music,  function(){ musicBtn.classList.add('show'); });
+    at(b.gone,   function(){ opening.style.display = 'none'; });
+  }
+
+  /* Count frames through the opening glow. A phone that cannot hold roughly
+     34fps there will not hold it through the lift either, so the rest of the
+     sequence switches to the short version mid-flight instead of stuttering. */
+  function watchFrameRate(){
+    var frames = 0, start = performance.now();
+    requestAnimationFrame(function loop(now){
+      frames++;
+      if (now - start < 700){ requestAnimationFrame(loop); return; }
+      if (frames / ((now - start) / 1000) >= 34) return;
+      timers.forEach(clearTimeout);
+      timers = [];
+      document.body.classList.add('lite');
+      schedule(LITE);
+    });
+  }
+
+  /* Fetching the soundtrack starts on touch-down, a beat before the tap
+     completes, so the audio does not begin decoding on the opening frame. */
+  var primed = false;
+  function primeAudio(){
+    if (primed || !invitationData.music) return;
+    primed = true;
+    try { audio.load(); } catch (e) {}
+  }
+  btnOpen.addEventListener('pointerdown', primeAudio);
+  btnOpen.addEventListener('touchstart', primeAudio, { passive:true });
+
+  var opened = false;
+  btnOpen.addEventListener('click', function(){
+    if (opened) return;
+    opened = true;
+
+    if (invitationData.music){
+      audio.volume = 0;
+      audio.play().then(fadeAudioIn).catch(function(){});
+      playing = true;
+      musicBtn.classList.add('playing');
+    }
+
+    if (reduceMotion){
+      opening.classList.add('stage-glow');
+      setTimeout(function(){ opening.classList.add('stage-open'); }, 350);
+      setTimeout(function(){
+        opening.classList.add('stage-fade');
+        document.body.classList.remove('is-sealed');
+        document.body.style.overflow = '';
+        heroReveal.classList.add('in');
+      }, 850);
+      setTimeout(function(){ musicBtn.classList.add('show'); }, 1150);
+      setTimeout(function(){ opening.style.display = 'none'; }, 1900);
+      return;
+    }
+
+    /* how far the card has to travel toward the camera to cover the viewport —
+       the dissolve then happens on a single flat sheet of paper, with nothing
+       of the envelope left at the edges of the frame */
+    if (envCard && envCard.offsetWidth && envCard.offsetHeight){
+      var fill = Math.max(window.innerWidth / envCard.offsetWidth,
+                          window.innerHeight / envCard.offsetHeight) * 1.35;
+      if (fill > 1) opening.style.setProperty('--fill', fill.toFixed(3));
+    }
+
+    /* the audio call owns this frame; the opening starts on the next one */
+    requestAnimationFrame(function(){
+      t0 = performance.now();
+      opening.classList.add('stage-glow');
+      var slim = document.body.classList.contains('lite');
+      schedule(slim ? LITE : FULL);
+      if (!slim) watchFrameRate();
+    });
+  });
+
+  /* ---------------- countdown ---------------- */
+  var target = new Date(invitationData.dateISO).getTime();
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var diff = target - Date.now();
+    if (diff < 0) diff = 0;
+    var s = Math.floor(diff/1000);
+    var d = Math.floor(s/86400); s -= d*86400;
+    var h = Math.floor(s/3600); s -= h*3600;
+    var m = Math.floor(s/60); s -= m*60;
+    document.getElementById('cd-d').textContent = pad(d);
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------------- timeline (data-driven) ---------------- */
+  var tl = document.getElementById('timeline');
+  if (invitationData.schedule.length <= 1) tl.classList.add('single');
+  invitationData.schedule.forEach(function(item, i){
+    var row = document.createElement('div');
+    row.className = 'stop';
+    if (invitationData.schedule.length > 1){
+      row.innerHTML =
+        '<span class="t-hair"></span>' +
+        '<div><div class="t-time">' + item.time + '</div>' +
+        '<div class="t-title serif">' + item.title + '</div>' +
+        (item.description ? '<div class="t-desc">' + item.description + '</div>' : '') +
+        '</div><span class="t-hair"></span>';
+    } else {
+      row.innerHTML =
+        '<span class="t-time">' + item.time + '</span>' +
+        '<div class="t-title serif">' + item.title + '</div>' +
+        (item.description ? '<div class="t-desc">' + item.description + '</div>' : '');
+    }
+    tl.appendChild(row);
+  });
+
+  /* ---------------- scroll reveal ---------------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------------- music (visual-only unless invitationData.music is set) ---------------- */
+  var audio = document.getElementById('bg-audio');
+  var toast = document.getElementById('toast');
+  var playing = false;
+  if (invitationData.music){ audio.src = invitationData.music; audio.volume = 0; }
+  var targetVol = .55;
+  function fadeAudioIn(){
+    var step = 0;
+    var id = setInterval(function(){
+      step += 1;
+      audio.volume = Math.min(targetVol, targetVol * (step / 24));
+      if (step >= 24) clearInterval(id);
+    }, 125);
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+  }
+
+  musicBtn.addEventListener('click', function(){
+    if (!invitationData.music){
+      showToast('Добавьте аудиофайл в invitationData.music');
+      return;
+    }
+    if (playing){ audio.pause(); } else { audio.volume = 0; audio.play().then(fadeAudioIn).catch(function(){}); }
+    playing = !playing;
+    musicBtn.classList.toggle('playing', playing);
+  });
+})();
+</script>
+
+</body>
+</html>
