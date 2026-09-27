@@ -131,17 +131,23 @@
   .beam-up{
     bottom:53%; width:160vw; height:58vh; transform:translateX(-50%) scaleY(.12);
     transform-origin:50% 100%; clip-path:polygon(50% 100%, 0% 0%, 100% 0%);
-    background:linear-gradient(to top, rgba(255,250,236,.95), rgba(255,242,212,.34) 46%, rgba(255,236,192,0) 90%);
+    background:linear-gradient(to top,
+      rgba(255,248,244,.95) 0%, rgba(250,214,198,.5) 28%,
+      rgba(233,197,158,.28) 54%, rgba(208,140,124,.11) 74%, rgba(183,106,92,0) 94%);
   }
   .beam-down{
     top:53%; width:160vw; height:58vh; transform:translateX(-50%) scaleY(.12);
     transform-origin:50% 0%; clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
-    background:linear-gradient(to bottom, rgba(255,250,236,.9), rgba(255,242,212,.3) 46%, rgba(255,236,192,0) 90%);
+    background:linear-gradient(to bottom,
+      rgba(255,248,244,.9) 0%, rgba(250,214,198,.44) 28%,
+      rgba(233,197,158,.24) 54%, rgba(208,140,124,.09) 74%, rgba(183,106,92,0) 94%);
   }
   .core{
     position:absolute; left:50%; top:50%; width:min(58vw,330px); height:min(58vw,330px);
     transform:translate(-50%,-50%) scale(.1); opacity:0; border-radius:50%; pointer-events:none;
-    background:radial-gradient(circle,#fffdf7 0%, rgba(255,251,238,.92) 20%, rgba(255,240,202,.5) 44%, rgba(255,233,182,0) 72%);
+    background:radial-gradient(circle,
+      #fff8f4 0%, rgba(253,232,224,.94) 16%, rgba(246,201,189,.64) 34%,
+      rgba(227,202,166,.42) 50%, rgba(208,140,124,.17) 66%, rgba(183,106,92,0) 82%);
     filter:blur(6px);
   }
   #opening.stage-open .beam{animation:beamGrow 2.7s cubic-bezier(.22,.62,.3,1) forwards; will-change:transform,opacity;}
@@ -219,8 +225,8 @@
   /* seams + vignette */
   .seam-svg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; transition:opacity 1.2s ease .4s;}
   .seam-base{stroke:#c98f86; stroke-width:.26; opacity:.5;}
-  .seam-hot{stroke:#fffaf6; stroke-width:.45; opacity:0; transition:opacity 1.4s ease;
-    filter:drop-shadow(0 0 4px rgba(255,240,232,.9));}
+  .seam-hot{stroke:#fff1e2; stroke-width:.45; opacity:0; transition:opacity 1.4s ease;
+    filter:drop-shadow(0 0 5px rgba(231,180,126,.95));}
   #opening.stage-glow .seam-hot{opacity:.62;}
   #opening.stage-open .seam-svg{opacity:0;}
   .env-vignette{position:absolute; inset:0; pointer-events:none;
@@ -232,12 +238,16 @@
   .spill-up{
     bottom:50%; width:170vw; height:56vh; transform:translateX(-50%) scaleY(.1); transform-origin:50% 100%;
     clip-path:polygon(50% 100%, 0% 0%, 100% 0%);
-    background:linear-gradient(to top, rgba(255,240,232,.95), rgba(253,220,205,.34) 50%, rgba(250,208,190,0) 92%);
+    background:linear-gradient(to top,
+      rgba(255,250,246,.95) 0%, rgba(249,209,192,.44) 44%,
+      rgba(226,167,149,.18) 70%, rgba(183,106,92,0) 94%);
   }
   .spill-down{
     top:50%; width:170vw; height:54vh; transform:translateX(-50%) scaleY(.1); transform-origin:50% 0%;
     clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
-    background:linear-gradient(to bottom, rgba(255,238,228,.78), rgba(253,217,200,.24) 52%, rgba(250,208,190,0) 92%);
+    background:linear-gradient(to bottom,
+      rgba(255,248,243,.78) 0%, rgba(249,206,188,.32) 46%,
+      rgba(226,167,149,.13) 72%, rgba(183,106,92,0) 94%);
   }
   #opening.stage-open .spill{animation:spillGrow 2.6s cubic-bezier(.2,.55,.3,1) forwards; will-change:transform,opacity;}
   @keyframes spillGrow{
@@ -248,7 +258,9 @@
   .bloom{
     position:absolute; left:50%; top:50%; width:150vmax; height:150vmax; border-radius:50%;
     transform:translate(-50%,-50%) scale(.07); opacity:0; pointer-events:none; mix-blend-mode:screen;
-    background:radial-gradient(circle, rgba(255,249,244,.97) 0%, rgba(255,235,225,.66) 16%, rgba(253,215,200,.28) 32%, rgba(250,205,188,0) 54%);
+    background:radial-gradient(circle,
+      rgba(255,250,247,.97) 0%, rgba(253,230,220,.8) 10%, rgba(246,201,189,.52) 22%,
+      rgba(227,202,166,.32) 34%, rgba(208,140,124,.13) 46%, rgba(183,106,92,0) 58%);
   }
   #opening.stage-open .bloom{animation:bloomGrow 2.7s cubic-bezier(.32,.3,.25,1) forwards; will-change:transform,opacity;}
   @keyframes bloomGrow{
@@ -261,13 +273,58 @@
   .light-wave{
     position:absolute; left:50%; top:50%; width:120vmax; height:120vmax; border-radius:50%;
     transform:translate(-50%,-50%) scale(.03); opacity:0; pointer-events:none; mix-blend-mode:screen;
-    background:radial-gradient(circle, rgba(255,245,240,0) 0%, rgba(255,238,230,.38) 32%, rgba(253,222,210,.16) 52%, rgba(250,210,196,0) 68%);
+    background:radial-gradient(circle,
+      rgba(255,248,244,0) 0%, rgba(255,248,244,0) 28%,
+      rgba(253,231,214,.5) 38%, rgba(240,203,152,.62) 45%, rgba(226,162,112,.34) 53%,
+      rgba(198,122,90,.1) 61%, rgba(183,106,92,0) 70%);
   }
   #opening.stage-glow .light-wave{animation:waveOut 2.2s cubic-bezier(.16,.7,.28,1) forwards; will-change:transform,opacity;}
   @keyframes waveOut{
     0%{transform:translate(-50%,-50%) scale(.03); opacity:0;}
-    12%{opacity:1;}
+    10%{opacity:1;}
+    62%{opacity:.7;}
     100%{transform:translate(-50%,-50%) scale(1); opacity:0;}
+  }
+
+  /* thin rays fanning out of the opened envelope */
+  .rays{
+    position:absolute; left:50%; top:50%; width:118vmax; height:118vmax; border-radius:50%;
+    transform:translate(-50%,-50%) rotate(-5deg) scale(.34); opacity:0;
+    pointer-events:none; mix-blend-mode:screen;
+    background:repeating-conic-gradient(from 0deg,
+      rgba(255,238,214,0) 0deg,
+      rgba(255,240,219,.6) 1.1deg,
+      rgba(255,238,214,0) 2.4deg,
+      rgba(255,238,214,0) 9deg);
+    -webkit-mask-image:radial-gradient(circle, rgba(0,0,0,.18) 3%, rgba(0,0,0,.85) 13%, rgba(0,0,0,.3) 30%, transparent 48%);
+    mask-image:radial-gradient(circle, rgba(0,0,0,.18) 3%, rgba(0,0,0,.85) 13%, rgba(0,0,0,.3) 30%, transparent 48%);
+  }
+  #opening.stage-open .rays{animation:raysOut 3.1s cubic-bezier(.2,.6,.3,1) forwards; will-change:transform,opacity;}
+  @keyframes raysOut{
+    0%{transform:translate(-50%,-50%) rotate(-5deg) scale(.34); opacity:0;}
+    34%{opacity:.34;}
+    100%{transform:translate(-50%,-50%) rotate(7deg) scale(1); opacity:.18;}
+  }
+
+  /* gold dust lifted by the light */
+  .motes{position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen;}
+  .mote{
+    position:absolute; top:50%; width:var(--s,5px); height:var(--s,5px); border-radius:50%;
+    background:radial-gradient(circle, #fff6ec 0%, rgba(236,196,146,.9) 42%, rgba(214,150,110,0) 74%);
+    opacity:0;
+  }
+  #opening.stage-open .mote{
+    animation:moteRise var(--d,4.2s) cubic-bezier(.25,.5,.35,1) var(--t,0s) forwards;
+    will-change:transform,opacity;
+  }
+  @keyframes moteRise{
+    0%{transform:translate3d(0,0,0) scale(.4); opacity:0;}
+    22%{opacity:1;}
+    70%{opacity:.8;}
+    100%{transform:translate3d(var(--x,0px), var(--y,-56vh), 0) scale(1.15); opacity:0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #opening.stage-open .rays, #opening.stage-open .mote{animation:none; opacity:0;}
   }
 
   /* wax seal */
@@ -295,13 +352,15 @@
   .seal-glow{
     position:absolute; top:50%; left:50%; width:150px; height:150px; border-radius:50%;
     transform:translate(-50%,-50%) scale(.85); opacity:0; pointer-events:none; filter:blur(3px);
-    background:radial-gradient(circle, rgba(255,250,246,.95), rgba(244,208,192,.45) 44%, transparent 72%);
+    background:radial-gradient(circle,
+      rgba(255,248,244,.95) 0%, rgba(246,201,189,.6) 32%,
+      rgba(227,202,166,.42) 52%, rgba(208,140,124,.14) 66%, transparent 80%);
   }
-  #opening.stage-glow .seal-glow{animation:sealBurst 1.3s ease-out forwards;}
+  #opening.stage-glow .seal-glow{animation:sealBurst 1.6s cubic-bezier(.15,.7,.3,1) forwards;}
   @keyframes sealBurst{
-    0%{transform:translate(-50%,-50%) scale(.8); opacity:.7;}
-    55%{transform:translate(-50%,-50%) scale(2.2); opacity:.32;}
-    100%{transform:translate(-50%,-50%) scale(3.4); opacity:0;}
+    0%{transform:translate(-50%,-50%) scale(.75); opacity:.95;}
+    45%{transform:translate(-50%,-50%) scale(2) ; opacity:.5;}
+    100%{transform:translate(-50%,-50%) scale(3.6); opacity:0;}
   }
   #opening.stage-glow .seal{filter:drop-shadow(0 10px 22px rgba(var(--e-shadow),.5)) drop-shadow(0 0 16px rgba(255,240,232,.7));}
   #opening.stage-open .seal{transform:translate(-50%,-50%) scale(1.05);
@@ -364,7 +423,7 @@
   #opening.stage-lift .env-card-shade{opacity:0;}
   .env-card-sheen{
     position:absolute; inset:-10%; opacity:0;
-    background:linear-gradient(102deg, rgba(255,255,255,0) 32%, rgba(255,246,240,.8) 50%, rgba(255,255,255,0) 68%);
+    background:linear-gradient(102deg, rgba(255,255,255,0) 30%, rgba(255,241,224,.85) 50%, rgba(255,255,255,0) 70%);
   }
   #opening.stage-lift .env-card-sheen{animation:cardSheen 1.7s cubic-bezier(.3,.2,.3,1) forwards;}
   @keyframes cardSheen{
@@ -406,6 +465,7 @@
      the flap still folds, the card still lifts and fills the frame; what goes
      is the stack of full-screen blurred light layers on top of it */
   body.lite .beam, body.lite .core, body.lite .spill, body.lite .light-wave,
+  body.lite .rays, body.lite .motes,
   body.lite .env-grain, body.lite .env-card-grain, body.lite .env-card-sheen{display:none;}
   body.lite .bloom{mix-blend-mode:screen;}
   body.lite .env-orn.gilt{filter:none;}
@@ -927,9 +987,26 @@
 
   <!-- light spilling out over the whole scene -->
   <div class="env-light">
+    <span class="rays"></span>
     <span class="spill spill-up"></span>
     <span class="spill spill-down"></span>
     <span class="bloom"></span>
+    <span class="motes" aria-hidden="true">
+      <span class="mote" style="left:11%; --s:4px; --x:26px; --y:-52vh; --d:4.4s; --t:0.35s"></span>
+      <span class="mote" style="left:19%; --s:6px; --x:-18px; --y:-60vh; --d:5.0s; --t:0.10s"></span>
+      <span class="mote" style="left:27%; --s:3px; --x:14px; --y:-46vh; --d:3.8s; --t:0.75s"></span>
+      <span class="mote" style="left:34%; --s:5px; --x:-24px; --y:-64vh; --d:4.8s; --t:0.45s"></span>
+      <span class="mote" style="left:41%; --s:4px; --x:10px; --y:-55vh; --d:4.2s; --t:0.95s"></span>
+      <span class="mote" style="left:47%; --s:6px; --x:-12px; --y:-68vh; --d:5.2s; --t:0.20s"></span>
+      <span class="mote" style="left:53%; --s:3px; --x:20px; --y:-50vh; --d:3.9s; --t:0.60s"></span>
+      <span class="mote" style="left:59%; --s:5px; --x:-16px; --y:-62vh; --d:4.6s; --t:1.10s"></span>
+      <span class="mote" style="left:66%; --s:4px; --x:22px; --y:-47vh; --d:4.0s; --t:0.30s"></span>
+      <span class="mote" style="left:73%; --s:6px; --x:-20px; --y:-66vh; --d:5.1s; --t:0.85s"></span>
+      <span class="mote" style="left:80%; --s:3px; --x:12px; --y:-53vh; --d:4.3s; --t:0.50s"></span>
+      <span class="mote" style="left:88%; --s:5px; --x:-26px; --y:-58vh; --d:4.7s; --t:1.25s"></span>
+      <span class="mote" style="left:15%; --s:3px; --x:18px; --y:-44vh; --d:3.7s; --t:1.45s"></span>
+      <span class="mote" style="left:63%; --s:4px; --x:-14px; --y:-57vh; --d:4.5s; --t:1.60s"></span>
+    </span>
     <span class="light-wave"></span>
     <span class="seal-glow"></span>
   </div>
