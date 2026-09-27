@@ -1451,19 +1451,29 @@
     wishBtn.disabled = true;
     wishNote.textContent = 'Отправляем…';
 
-    var body = new FormData();
+    /* Именно URLSearchParams, а не FormData. Apps Script раскладывает по
+       e.parameter только application/x-www-form-urlencoded; multipart он
+       оставляет сырым телом, и скрипт видит пустые поля — запрос доходит,
+       а строка в таблицу не пишется. Предпросмотра у этой ошибки нет:
+       ответ кросс-доменный, браузер его не показывает. */
+    var body = new URLSearchParams();
     body.append('name', name);
     body.append('wish', text);
 
     fetch(invitationData.wishesUrl, { method:'POST', body:body })
       .then(function(r){
-        if (r.ok) return wishSent();
-        throw new Error('http ' + r.status);   // сервер ответил и отказал
+        if (!r.ok) throw new Error('http ' + r.status);   // сервер ответил и отказал
+        return r.text();
+      })
+      .then(function(resp){
+        /* скрипт таблицы отвечает {"ok":true} или {"ok":false,...} */
+        if (resp && resp.indexOf('"ok":false') !== -1) throw new Error('rejected: ' + resp);
+        wishSent();
       })
       .catch(function(err){
         /* TypeError — ответ вообще не удалось прочитать: браузер закрыл его
            из-за CORS. Запрос при этом до таблицы доходит, поэтому повторяем
-           вслепую. Отказ сервера (строка выше) сюда не попадает и честно
+           вслепую. Отказ сервера (строки выше) сюда не попадает и честно
            показывается гостю. */
         if (err instanceof TypeError){
           return fetch(invitationData.wishesUrl, { method:'POST', body:body, mode:'no-cors' })
@@ -1471,7 +1481,8 @@
         }
         throw err;
       })
-      .catch(function(){
+      .catch(function(err){
+        if (window.console) console.warn('Пожелание не отправлено:', err);
         wishBtn.disabled = false;
         wishNote.textContent = 'Не получилось отправить. Проверьте связь и попробуйте ещё раз.';
       });
